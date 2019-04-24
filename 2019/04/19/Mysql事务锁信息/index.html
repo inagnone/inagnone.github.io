@@ -10,6 +10,9 @@
 
     <!--Description-->
     
+        <meta name="description" content="# 查询当前数据库中的事务和锁信息
+information_schema.innodb_trx当前运行的所有事务Field     | Remark————–  | ——– |trx_id     |    事务IDtrx_state     |    事务状态：trx_started     | ">
+    
 
     <!--Author-->
     
@@ -18,7 +21,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Hexo">
+        <meta property="og:title" content="查询当前数据库中的事务和锁信息">
     
 
     <!--Open Graph Description-->
@@ -29,7 +32,7 @@
 
     <!--Type page-->
     
-        <meta property="og:type" content="website">
+        <meta property="og:type" content="article">
     
 
     <!--Page Cover-->
@@ -40,7 +43,7 @@
 
     <!-- Title -->
     
-    <title>Archives: 2019 - Hexo</title>
+    <title>查询当前数据库中的事务和锁信息 - Hexo</title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
@@ -127,9 +130,7 @@
 <div class="container">
 
     <!-- Main Content -->
-    
-
-<div class="row">
+    <div class="row">
     <div class="col-sm-12">
 
         <!--Title and Logo-->
@@ -137,61 +138,169 @@
     <div class="logo">
         <a href="/"><i class="logo-icon fa fa-cube" aria-hidden="true"></i></a>
         
-            <h1 id="main-title" class="title">2019</h1>
-        
     </div>
 </header>
 
-        <section class="main archive-container">
+        <section class="main">
             
-                <div class="archive-post">
-    <a href="/2019/04/19/hello-world/">
-        <span class="archive-date">
-            Apr 2019
-        </span>
-        Hello World
-    </a>
+<div class="post">
+
+    <div class="post-header">
+        <h1 class="title">
+            <a href="/2019/04/19/Mysql事务锁信息/">
+                查询当前数据库中的事务和锁信息
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-04-19</span>
+            
+            
+            
+        </div>
+    </div>
+
+    <div class="content">
+
+        <!-- Gallery -->
+        
+
+        <!-- Post Content -->
+        <p>﻿# 查询当前数据库中的事务和锁信息</p>
+<h2 id="information-schema-innodb-trx"><a href="#information-schema-innodb-trx" class="headerlink" title="information_schema.innodb_trx"></a>information_schema.innodb_trx</h2><p>当前运行的所有事务<br>Field     | Remark<br>————–  | ——– |<br>trx_id     |    事务ID<br>trx_state     |    事务状态：<br>trx_started     |    事务开始时间；<br>trx_requested_lock_id      |innodb_locks.lock_id<br>trx_wait_started     |事务开始等待的时间<br>trx_weight     bigint(21) |         #<br>trx_mysql_thread_id     |    事务线程ID<br>trx_query     |         具体SQL语句<br>trx_operation_state     |    事务当前操作状态<br>trx_tables_in_use     |         事务中有多少个表被使用<br>trx_tables_locked     |         事务拥有多少个锁<br>trx_lock_structs     |         #<br>trx_lock_memory_bytes     |         事务锁住的内存大小（B）<br>trx_rows_locked     |         事务锁住的行数<br>trx_rows_modified     |         事务更改的行数<br>trx_concurrency_tickets     |         事务并发票数<br>trx_isolation_level     |                 事务隔离级别<br>trx_unique_checks     |        是否唯一性检查<br>trx_foreign_key_checks     |         是否外键检查<br>trx_last_foreign_key_error     |         最后的外键错误<br>trx_adaptive_hash_latched     |         #<br>trx_adaptive_hash_timeout     |         #</p>
+<h2 id="information-schema-innodb-locks"><a href="#information-schema-innodb-locks" class="headerlink" title="information_schema.innodb_locks"></a>information_schema.innodb_locks</h2><p>当前出现的锁<br>Field     | Remark<br>————–  | ——– |<br>lock_id        | 锁ID    |<br>lock_trx_id   |拥有锁的事务ID<br>lock_mode     |    锁模式<br>lock_type     |锁类型<br>lock_table     |被锁的表<br>lock_index     |     被锁的索引<br>lock_space     |     被锁的表空间号<br>lock_page    |    被锁的页号<br>lock_rec         |     被锁的记录号<br>lock_data     |     被锁的数据</p>
+<h2 id="innodb-lock-waits-innodb-lock-waits"><a href="#innodb-lock-waits-innodb-lock-waits" class="headerlink" title="innodb_lock_waits.innodb_lock_waits"></a>innodb_lock_waits.innodb_lock_waits</h2><p>锁等待的对应关系<br>Field            | Remark<br>————–  | ——– |<br>requesting_trx_id     |        请求锁的事务ID<br>requested_lock_id     |        请求锁的锁ID<br>blocking_trx_id     |        当前拥有锁的事务ID<br>blocking_lock_id     |        当前拥有锁的锁ID</p>
+<h2 id="show-full-processlist"><a href="#show-full-processlist" class="headerlink" title="show full processlist"></a>show full processlist</h2><p>查询当前数据库中运行的进程信息（相当于正在执行的每一条sql语句的状态信息）<br>Field            | Remark<br>————–  | ——– |<br>id | 一个标识<br>user| 显示当前用户，如果不是root，这 个命令就只显示你权限范围内的sql语句。<br>host| 显示这个语句是从哪个ip的哪个端口上发出的<br>db|显示 这个进程目前连接的数据库。<br>command|显示当前连接的执行的命令，一般就是休眠（sleep），查询（query），连接 （connect）。<br>time| 此这个状态持续的时间，单位是秒。<br>state|显示使用当前连接的sql语句的状态，只是语句执行中的某一个状态，一个sql语句，已查询为例，可能需要经过copying to tmp table，Sorting result，Sending data等状态才可以完成<br>info| 显示这个sql语句，因为长度有限，所以长的sql语句就显示不全，但是一个判断问题语句的重要依据。 </p>
+<h3 id="state列"><a href="#state列" class="headerlink" title="state列"></a>state列</h3><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Checking table</td>
+<td>正在检查数据表（这是自动的）。</td>
+</tr>
+<tr>
+<td>Closing tables</td>
+<td>正在将表中修改的数据刷新到磁盘中，同时正在关闭已经用完的表。这是一个很快的操作，如果不是这样的话，就应该确认磁盘空间是否已经满了或者磁盘是否正处于重负中。</td>
+</tr>
+<tr>
+<td>Connect Out</td>
+<td>复制从服务器正在连接主服务器。</td>
+</tr>
+<tr>
+<td>Copying to tmp table on disk</td>
+<td>由于临时结果集大于 tmp_table_size，正在将临时表从内存存储转为磁盘存储以此节省内存。</td>
+</tr>
+<tr>
+<td>Creating tmp table</td>
+<td>正在创建临时表以存放部分查询结果。</td>
+</tr>
+<tr>
+<td>deleting from main table</td>
+<td>服务器正在执行多表删除中的第一部分，刚删除第一个表。</td>
+</tr>
+<tr>
+<td>deleting from reference tables</td>
+<td>服务器正在执行多表删除中的第二部分，正在删除其他表的记录。</td>
+</tr>
+<tr>
+<td>Flushing tables</td>
+<td>正在执行 FLUSH TABLES，等待其他线程关闭数据表。</td>
+</tr>
+<tr>
+<td>Killed</td>
+<td>发送了一个kill请求给某线程，那么这个线程将会检查kill标志位，同时会放弃下一个kill请求。MySQL会在每次的主循环中检查kill标志 位，不过有些情况下该线程可能会过一小段才能死掉。如果该线程程被其他线程锁住了，那么kill请求会在锁释放时马上生效。</td>
+</tr>
+<tr>
+<td>Locked</td>
+<td>被其他查询锁住了。</td>
+</tr>
+<tr>
+<td>Sending data</td>
+<td>正在处理 SELECT 查询的记录，同时正在把结果发送给客户端。</td>
+</tr>
+<tr>
+<td>Sorting for group</td>
+<td>正在为 GROUP BY 做排序。</td>
+</tr>
+<tr>
+<td>Sorting for order</td>
+<td>正在为 ORDER BY 做排序。</td>
+</tr>
+<tr>
+<td>Opening tables</td>
+<td>这个过程应该会很快，除非受到其他因素的干扰。例如，在执 ALTER TABLE 或 LOCK TABLE 语句行完以前，数据表无法被其他线程打开。 正尝试打开一个表。</td>
+</tr>
+<tr>
+<td>Removing duplicates</td>
+<td>正在执行一个 SELECT DISTINCT 方式的查询，但是MySQL无法在前一个阶段优化掉那些重复的记录。因此，MySQL需要再次去掉重复的记录，然后再把结果发送给客户端。</td>
+</tr>
+<tr>
+<td>Reopen table</td>
+<td>获得了对一个表的锁，但是必须在表结构修改之后才能获得这个锁。已经释放锁，关闭数据表，正尝试重新打开数据表。</td>
+</tr>
+<tr>
+<td>Repair by sorting</td>
+<td>修复指令正在排序以创建索引。</td>
+</tr>
+<tr>
+<td>Repair with keycache</td>
+<td>修复指令正在利用索引缓存一个一个地创建新索引。它会比 Repair by sorting 慢些。</td>
+</tr>
+<tr>
+<td>Searching rows for update</td>
+<td>正在讲符合条件的记录找出来以备更新。它必须在 UPDATE 要修改相关的记录之前就完成了。</td>
+</tr>
+<tr>
+<td>Sleeping</td>
+<td>正在等待客户端发送新请求.</td>
+</tr>
+<tr>
+<td>System lock</td>
+<td>正在等待取得一个外部的系统锁。如果当前没有运行多个 mysqld 服务器同时请求同一个表，那么可以通过增加 –skip-external-locking参数来禁止外部系统锁。</td>
+</tr>
+<tr>
+<td>Upgrading lock</td>
+<td>INSERT DELAYED 正在尝试取得一个锁表以插入新记录。</td>
+</tr>
+<tr>
+<td>Updating</td>
+<td>正在搜索匹配的记录，并且修改它们。</td>
+</tr>
+<tr>
+<td>User Lock</td>
+<td>正在等待 GET_LOCK()。</td>
+</tr>
+<tr>
+<td>Waiting for tables</td>
+<td>该线程得到通知，数据表结构已经被修改了，需要重新打开数据表以取得新的结构。然后，为了能的重新打开数据表，必须等到所有其他线程关闭这个表。以下几种 情况下会产生这个通知：FLUSH TABLES tbl_name, ALTER TABLE, RENAME TABLE, REPAIR TABLE, ANALYZE TABLE, 或 OPTIMIZE TABLE。</td>
+</tr>
+<tr>
+<td>waiting for handler insert</td>
+<td>INSERT DELAYED 已经处理完了所有待处理的插入操作，正在等待新的请求。</td>
+</tr>
+</tbody>
+</table>
+
+    </div>
+
+    
+
+    
+
+    <!-- Comments -->
+    
+
 </div>
-            
-                <div class="archive-post">
-    <a href="/2019/04/19/Mysql事务锁信息/">
-        <span class="archive-date">
-            Apr 2019
-        </span>
-        查询当前数据库中的事务和锁信息
-    </a>
-</div>
-            
-                <div class="archive-post">
-    <a href="/2019/04/19/markdown语法/">
-        <span class="archive-date">
-            Apr 2019
-        </span>
-        markdown语法
-    </a>
-</div>
-            
-                <div class="archive-post">
-    <a href="/2019/04/19/markdown/">
-        <span class="archive-date">
-            Apr 2019
-        </span>
-        markdown语法
-    </a>
-</div>
-            
-                <div class="archive-post">
-    <a href="/2019/04/19/位运算——两数相加/">
-        <span class="archive-date">
-            Apr 2019
-        </span>
-        位运算--两束之和
-    </a>
-</div>
-            
         </section>
+
     </div>
 </div>
+
 
 </div>
 

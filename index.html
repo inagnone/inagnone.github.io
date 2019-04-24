@@ -147,13 +147,13 @@
 
     <div class="post-header index">
         <h1 class="title">
-            <a href="/2019/04/24/Mysql事务锁信息/">
-                Untitled
+            <a href="/2019/04/19/Mysql事务锁信息/">
+                查询当前数据库中的事务和锁信息
             </a>
         </h1>
         <div class="post-info">
             
-                <span class="date">2019-04-24</span>
+                <span class="date">2019-04-19</span>
             
             
             
@@ -162,7 +162,8 @@
 
     
         <div class="content">
-            <h1 id="查询当前数据库中的事务和锁信息"><a href="#查询当前数据库中的事务和锁信息" class="headerlink" title="查询当前数据库中的事务和锁信息"></a>查询当前数据库中的事务和锁信息</h1><h2 id="information-schema-innodb-trx"><a href="#information-schema-innodb-trx" class="headerlink" title="information_schema.innodb_trx"></a>information_schema.innodb_trx</h2><p>当前运行的所有事务<br>Field     | Remark<br>————–  | ——– |<br>trx_id     |    事务ID<br>trx_state     |    事务状态：<br>trx_started     |    事务开始时间；<br>trx_requested_lock_id      |innodb_locks.lock_id<br>trx_wait_started     |事务开始等待的时间<br>trx_weight     bigint(21) |         #<br>trx_mysql_thread_id     |    事务线程ID<br>trx_query     |         具体SQL语句<br>trx_operation_state     |    事务当前操作状态<br>trx_tables_in_use     |         事务中有多少个表被使用<br>trx_tables_locked     |         事务拥有多少个锁<br>trx_lock_structs     |         #<br>trx_lock_memory_bytes     |         事务锁住的内存大小（B）<br>trx_rows_locked     |         事务锁住的行数<br>trx_rows_modified     |         事务更改的行数<br>trx_concurrency_tickets     |         事务并发票数<br>trx_isolation_level     |                 事务隔离级别<br>trx_unique_checks     |        是否唯一性检查<br>trx_foreign_key_checks     |         是否外键检查<br>trx_last_foreign_key_error     |         最后的外键错误<br>trx_adaptive_hash_latched     |         #<br>trx_adaptive_hash_timeout     |         #</p>
+            <p>﻿# 查询当前数据库中的事务和锁信息</p>
+<h2 id="information-schema-innodb-trx"><a href="#information-schema-innodb-trx" class="headerlink" title="information_schema.innodb_trx"></a>information_schema.innodb_trx</h2><p>当前运行的所有事务<br>Field     | Remark<br>————–  | ——– |<br>trx_id     |    事务ID<br>trx_state     |    事务状态：<br>trx_started     |    事务开始时间；<br>trx_requested_lock_id      |innodb_locks.lock_id<br>trx_wait_started     |事务开始等待的时间<br>trx_weight     bigint(21) |         #<br>trx_mysql_thread_id     |    事务线程ID<br>trx_query     |         具体SQL语句<br>trx_operation_state     |    事务当前操作状态<br>trx_tables_in_use     |         事务中有多少个表被使用<br>trx_tables_locked     |         事务拥有多少个锁<br>trx_lock_structs     |         #<br>trx_lock_memory_bytes     |         事务锁住的内存大小（B）<br>trx_rows_locked     |         事务锁住的行数<br>trx_rows_modified     |         事务更改的行数<br>trx_concurrency_tickets     |         事务并发票数<br>trx_isolation_level     |                 事务隔离级别<br>trx_unique_checks     |        是否唯一性检查<br>trx_foreign_key_checks     |         是否外键检查<br>trx_last_foreign_key_error     |         最后的外键错误<br>trx_adaptive_hash_latched     |         #<br>trx_adaptive_hash_timeout     |         #</p>
 <h2 id="information-schema-innodb-locks"><a href="#information-schema-innodb-locks" class="headerlink" title="information_schema.innodb_locks"></a>information_schema.innodb_locks</h2><p>当前出现的锁<br>Field     | Remark<br>————–  | ——– |<br>lock_id        | 锁ID    |<br>lock_trx_id   |拥有锁的事务ID<br>lock_mode     |    锁模式<br>lock_type     |锁类型<br>lock_table     |被锁的表<br>lock_index     |     被锁的索引<br>lock_space     |     被锁的表空间号<br>lock_page    |    被锁的页号<br>lock_rec         |     被锁的记录号<br>lock_data     |     被锁的数据</p>
 <h2 id="innodb-lock-waits-innodb-lock-waits"><a href="#innodb-lock-waits-innodb-lock-waits" class="headerlink" title="innodb_lock_waits.innodb_lock_waits"></a>innodb_lock_waits.innodb_lock_waits</h2><p>锁等待的对应关系<br>Field            | Remark<br>————–  | ——– |<br>requesting_trx_id     |        请求锁的事务ID<br>requested_lock_id     |        请求锁的锁ID<br>blocking_trx_id     |        当前拥有锁的事务ID<br>blocking_lock_id     |        当前拥有锁的锁ID</p>
 <h2 id="show-full-processlist"><a href="#show-full-processlist" class="headerlink" title="show full processlist"></a>show full processlist</h2><p>查询当前数据库中运行的进程信息（相当于正在执行的每一条sql语句的状态信息）<br>Field            | Remark<br>————–  | ——– |<br>id | 一个标识<br>user| 显示当前用户，如果不是root，这 个命令就只显示你权限范围内的sql语句。<br>host| 显示这个语句是从哪个ip的哪个端口上发出的<br>db|显示 这个进程目前连接的数据库。<br>command|显示当前连接的执行的命令，一般就是休眠（sleep），查询（query），连接 （connect）。<br>time| 此这个状态持续的时间，单位是秒。<br>state|显示使用当前连接的sql语句的状态，只是语句执行中的某一个状态，一个sql语句，已查询为例，可能需要经过copying to tmp table，Sorting result，Sending data等状态才可以完成<br>info| 显示这个sql语句，因为长度有限，所以长的sql语句就显示不全，但是一个判断问题语句的重要依据。 </p>
@@ -291,41 +292,7 @@
 
     <div class="post-header index">
         <h1 class="title">
-            <a href="/2019/04/24/位运算——两数相加/">
-                Untitled
-            </a>
-        </h1>
-        <div class="post-info">
-            
-                <span class="date">2019-04-24</span>
-            
-            
-            
-        </div>
-    </div>
-
-    
-        <div class="content">
-            <p><a href="https://leetcode-cn.com/problems/sum-of-two-integers/submissions/" target="_blank" rel="noopener">371. 两整数之和</a></p>
-<blockquote>
-<p>两位单独的位相加其结果可以用异或得到, 进位可以用与得到. </p>
-</blockquote>
-<p>例子：11+5<br> 其二进制形式为11: 1011, 5: 0101</p>
-<p>计算步骤：<br>1、与运算得出哪些位需要进位<br>11&amp;5    –&gt;   0001<br>2、异或运算得到两数二进制各位上分别相加的结果<br>11^5    –&gt;   1110<br>3、将需要的进位加到第2步的结果<br>0001表示最后一位需要进位，左移1为0001&lt;&lt;1–》0010<br>此时运算结果为0010与1110的和，重复第一步</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> carry = a &amp; b;</span><br><span class="line">        <span class="keyword">int</span> sum = a ^ b;</span><br><span class="line">        <span class="keyword">while</span>(carry != <span class="number">0</span>)&#123;</span><br><span class="line">            carry = carry &lt;&lt; <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">return</span> getSum(sum,carry);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>参考文章：<br><a href="https://blog.csdn.net/qq508618087/article/details/51789576" target="_blank" rel="noopener">blog.csdn.net/qq508618087/article/details/51789576</a></p>
-
-        </div>
-    
-
-</div>
-            
-                
-<div class="post">
-
-    <div class="post-header index">
-        <h1 class="title">
-            <a href="/2019/04/19/demo/">
+            <a href="/2019/04/19/markdown语法/">
                 markdown语法
             </a>
         </h1>
@@ -567,6 +534,40 @@
 
     <div class="post-header index">
         <h1 class="title">
+            <a href="/2019/04/19/位运算——两数相加/">
+                位运算--两束之和
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-04-19</span>
+            
+            
+            
+        </div>
+    </div>
+
+    
+        <div class="content">
+            <p>﻿<a href="https://leetcode-cn.com/problems/sum-of-two-integers/submissions/" target="_blank" rel="noopener">371. 两整数之和</a></p>
+<blockquote>
+<p>两位单独的位相加其结果可以用异或得到, 进位可以用与得到. </p>
+</blockquote>
+<p>例子：11+5<br> 其二进制形式为11: 1011, 5: 0101</p>
+<p>计算步骤：<br>1、与运算得出哪些位需要进位<br>11&amp;5    –&gt;   0001<br>2、异或运算得到两数二进制各位上分别相加的结果<br>11^5    –&gt;   1110<br>3、将需要的进位加到第2步的结果<br>0001表示最后一位需要进位，左移1为0001&lt;&lt;1–》0010<br>此时运算结果为0010与1110的和，重复第一步</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getSum</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> carry = a &amp; b;</span><br><span class="line">        <span class="keyword">int</span> sum = a ^ b;</span><br><span class="line">        <span class="keyword">while</span>(carry != <span class="number">0</span>)&#123;</span><br><span class="line">            carry = carry &lt;&lt; <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">return</span> getSum(sum,carry);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sum;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>参考文章：<br><a href="https://blog.csdn.net/qq508618087/article/details/51789576" target="_blank" rel="noopener">blog.csdn.net/qq508618087/article/details/51789576</a></p>
+
+        </div>
+    
+
+</div>
+            
+                
+<div class="post">
+
+    <div class="post-header index">
+        <h1 class="title">
             <a href="/2019/04/19/hello-world/">
                 Hello World
             </a>
@@ -626,19 +627,19 @@
         <ul>
             
             <li>
-                <a class="footer-post" href="/2019/04/24/Mysql事务锁信息/">Untitled</a>
+                <a class="footer-post" href="/2019/04/19/Mysql事务锁信息/">查询当前数据库中的事务和锁信息</a>
             </li>
             
             <li>
-                <a class="footer-post" href="/2019/04/24/位运算——两数相加/">Untitled</a>
-            </li>
-            
-            <li>
-                <a class="footer-post" href="/2019/04/19/demo/">markdown语法</a>
+                <a class="footer-post" href="/2019/04/19/markdown语法/">markdown语法</a>
             </li>
             
             <li>
                 <a class="footer-post" href="/2019/04/19/markdown/">markdown语法</a>
+            </li>
+            
+            <li>
+                <a class="footer-post" href="/2019/04/19/位运算——两数相加/">位运算--两束之和</a>
             </li>
             
         </ul>
