@@ -10,6 +10,19 @@
 
     <!--Description-->
     
+        <meta name="description" content="Class文件精确定义了类与接口的表示形式，包括在平台相关的目标文件格式中一些细节上的惯例。
+数据类型java虚拟机可以操作的数据类型分给两类：
+
+原始类型
+数值类型
+整数类型
+
+byte类型：8位有符号
+short类型：16位有符号
+int类型：32位有符号
+long类型：64位有符号 
+char">
+    
 
     <!--Author-->
     
@@ -18,7 +31,7 @@
 
     <!--Open Graph Title-->
     
-        <meta property="og:title" content="Hexo">
+        <meta property="og:title" content="java虚拟机结构(一)">
     
 
     <!--Open Graph Description-->
@@ -29,7 +42,7 @@
 
     <!--Type page-->
     
-        <meta property="og:type" content="website">
+        <meta property="og:type" content="article">
     
 
     <!--Page Cover-->
@@ -40,7 +53,7 @@
 
     <!-- Title -->
     
-    <title>Archives: 2019 - Hexo</title>
+    <title>java虚拟机结构(一) - Hexo</title>
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
@@ -127,9 +140,7 @@
 <div class="container">
 
     <!-- Main Content -->
-    
-
-<div class="row">
+    <div class="row">
     <div class="col-sm-12">
 
         <!--Title and Logo-->
@@ -137,61 +148,92 @@
     <div class="logo">
         <a href="/"><i class="logo-icon fa fa-cube" aria-hidden="true"></i></a>
         
-            <h1 id="main-title" class="title">2019</h1>
-        
     </div>
 </header>
 
-        <section class="main archive-container">
+        <section class="main">
             
-                <div class="archive-post">
-    <a href="/2019/04/19/Mysql事务锁信息/">
-        <span class="archive-date">
-            Apr 2019
-        </span>
-        查询当前数据库中的事务和锁信息
-    </a>
+<div class="post">
+
+    <div class="post-header">
+        <h1 class="title">
+            <a href="/2019/04/25/java虚拟机结构-一/">
+                java虚拟机结构(一)
+            </a>
+        </h1>
+        <div class="post-info">
+            
+                <span class="date">2019-04-25</span>
+            
+            
+            
+        </div>
+    </div>
+
+    <div class="content">
+
+        <!-- Gallery -->
+        
+
+        <!-- Post Content -->
+        <p><img src="E:\inagnone.github.io\source\_posts\pic\1240" alt="虚拟机结构"></p>
+<h1 id="Class文件"><a href="#Class文件" class="headerlink" title="Class文件"></a>Class文件</h1><p>精确定义了类与接口的表示形式，包括在平台相关的目标文件格式中一些细节上的惯例。</p>
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><p>java虚拟机可以操作的数据类型分给两类：</p>
+<ul>
+<li><h2 id="原始类型"><a href="#原始类型" class="headerlink" title="原始类型"></a>原始类型</h2><ul>
+<li><h3 id="数值类型"><a href="#数值类型" class="headerlink" title="数值类型"></a>数值类型</h3><ul>
+<li><h4 id="整数类型"><a href="#整数类型" class="headerlink" title="整数类型"></a>整数类型</h4><blockquote>
+<ol>
+<li>byte类型：8位有符号</li>
+<li>short类型：16位有符号</li>
+<li>int类型：32位有符号</li>
+<li>long类型：64位有符号 </li>
+<li>char类型：16位无符号</li>
+</ol>
+</blockquote>
+</li>
+<li><h4 id="浮点类型"><a href="#浮点类型" class="headerlink" title="浮点类型"></a>浮点类型</h4><blockquote>
+<ol>
+<li>float类型：32位单精度浮点数</li>
+<li>double类型：64位双精度浮点数</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><h3 id="boolean类型"><a href="#boolean类型" class="headerlink" title="boolean类型"></a>boolean类型</h3><p>​    布尔值true和false，默认false</p>
+</li>
+<li><h3 id="returnAddress类型"><a href="#returnAddress类型" class="headerlink" title="returnAddress类型"></a>returnAddress类型</h3><p>指向某个操作码的指针，操作码与java虚拟机指令相对应</p>
+</li>
+</ul>
+</li>
+<li><h2 id="数据类型-1"><a href="#数据类型-1" class="headerlink" title="数据类型"></a>数据类型</h2><ul>
+<li><h3 id="类类型"><a href="#类类型" class="headerlink" title="类类型"></a>类类型</h3><p>指向动态创建的类实例</p>
+</li>
+<li><h3 id="数组类型"><a href="#数组类型" class="headerlink" title="数组类型"></a>数组类型</h3><p>指向动态创建的数组实例</p>
+</li>
+<li><h3 id="接口类型"><a href="#接口类型" class="headerlink" title="接口类型"></a>接口类型</h3><p>指向实现了某个接口的类实例</p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="运行时数据区"><a href="#运行时数据区" class="headerlink" title="运行时数据区"></a>运行时数据区</h1><h2 id="pc寄存器"><a href="#pc寄存器" class="headerlink" title="pc寄存器"></a>pc寄存器</h2><p>每一个线程都有自己的pc寄存器，且任意时刻都只会各自执行一个方法。如果当前方法时native<a href="&quot;java调用非java代码实现的接口&quot;">^native</a>,pc寄存器保存java虚拟机正在执行的字节码指令的地址，如果不是native，pc寄存器保存undefined</p>
+<h2 id="java虚拟机栈"><a href="#java虚拟机栈" class="headerlink" title="java虚拟机栈"></a>java虚拟机栈</h2>
+    </div>
+
+    
+
+    
+
+    <!-- Comments -->
+    
+
 </div>
-            
-                <div class="archive-post">
-    <a href="/2019/04/19/hello-world/">
-        <span class="archive-date">
-            Apr 2019
-        </span>
-        Hello World
-    </a>
-</div>
-            
-                <div class="archive-post">
-    <a href="/2019/04/19/位运算——两数相加/">
-        <span class="archive-date">
-            Apr 2019
-        </span>
-        位运算--两束之和
-    </a>
-</div>
-            
-                <div class="archive-post">
-    <a href="/2019/04/25/java虚拟机结构-一/">
-        <span class="archive-date">
-            Apr 2019
-        </span>
-        java虚拟机结构(一)
-    </a>
-</div>
-            
-                <div class="archive-post">
-    <a href="/2019/04/19/markdown语法/">
-        <span class="archive-date">
-            Apr 2019
-        </span>
-        markdown语法
-    </a>
-</div>
-            
         </section>
+
     </div>
 </div>
+
 
 </div>
 
