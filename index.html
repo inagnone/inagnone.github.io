@@ -286,6 +286,479 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/19/oracle虚拟机规范翻译-java虚拟机结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/19/oracle虚拟机规范翻译-java虚拟机结构/" class="post-title-link" itemprop="url">oracle虚拟机规范翻译--java虚拟机结构</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Erstellt: 2019-05-19 20:48:54 / Geändert am: 20:48:55" itemprop="dateCreated datePublished" datetime="2019-05-19T20:48:54+08:00">2019-05-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/17/类加载器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/17/类加载器/" class="post-title-link" itemprop="url">类加载器</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Erstellt: 2019-05-17 00:48:11 / Geändert am: 01:21:16" itemprop="dateCreated datePublished" datetime="2019-05-17T00:48:11+08:00">2019-05-17</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="java虚拟机使用类的步奏"><a href="#java虚拟机使用类的步奏" class="headerlink" title="java虚拟机使用类的步奏"></a>java虚拟机使用类的步奏</h1><ol>
+<li>java源程序（.java文件）经过编译器编译之后被转换成java字节码文件（.class文件）</li>
+<li>类加载器负责读取java字节码文件，并构造出java.lang.Class的一个实例对象。</li>
+<li>Class的实例对象调用newInstance()方法创造出该类的一个对象</li>
+</ol>
+<h1 id="类加载器的类型"><a href="#类加载器的类型" class="headerlink" title="类加载器的类型"></a>类加载器的类型</h1><ul>
+<li>引导类加载器（bootstrap class loader）：它用来加载 Java 的核心库，是用原生代码来实现的，并不继承自 <code>java.lang.ClassLoader</code>。</li>
+<li>扩展类加载器（extensions class loader）：它用来加载 Java 的扩展库。Java 虚拟机的实现会提供一个扩展库目录。该类加载器在此目录里面查找并加载 Java 类。</li>
+<li>系统类加载器（system class loader）：它根据 Java 应用的类路径（CLASSPATH）来加载 Java 类。一般来说，Java 应用的类都是由它来完成加载的。可以通过 <code>ClassLoader.getSystemClassLoader()</code>来获取它。</li>
+</ul>
+<p>对于系统提供的类加载器来说，系统类加载器的父类加载器是扩展类加载器，而扩展类加载器的父类加载器是引导类加载器；对于开发人员编写的类加载器来说，其父类加载器是加载此类加载器Java 类的类加载器。因为类加载器 Java 类如同其它的 Java 类一样，也是要由类加载器来加载的。一般来说，开发人员编写的类加载器的父类加载器是系统类加载器。</p>
+<p>每个 Java 类都维护着一个指向定义它的类加载器的引用，通过 <code>getClassLoader()</code>方法就可以获取到此引用。</p>
+<h1 id="java虚拟机对类的比较"><a href="#java虚拟机对类的比较" class="headerlink" title="java虚拟机对类的比较"></a>java虚拟机对类的比较</h1><p>Java 虚拟机不仅要看类的全名是否相同，还要看加载此类的类加载器是否一样。只有两者都相同的情况，才认为两个类是相同的。即便是同样的字节代码，被不同的类加载器加载之后所得到的类，也是不同的。比如一个 Java 类 <code>com.example.Sample</code>，编译之后生成了字节代码文件 <code>Sample.class</code>。两个不同的类加载器 <code>ClassLoaderA</code>和 <code>ClassLoaderB</code>分别读取了这个 <code>Sample.class</code>文件，并定义出两个 <code>java.lang.Class</code>类的实例来表示这个类。这两个实例是不相同的。对于 Java 虚拟机来说，它们是不同的类。试图对这两个类的对象进行相互赋值，会抛出运行时异常 </p>
+<p>不同的类加载器为相同名称的类创建了额外的名称空间。相同名称的类可以并存在 Java 虚拟机中，只需要用不同的类加载器来加载它们即可。不同类加载器加载的类之间是不兼容的，这就相当于在 Java 虚拟机内部创建了一个个相互隔离的 Java 类空间。</p>
+<h1 id="类加载器的代理模式"><a href="#类加载器的代理模式" class="headerlink" title="类加载器的代理模式"></a>类加载器的代理模式</h1><p>类加载器在尝试自己去查找某个类的字节代码并定义它时，会先代理给其父类加载器，由父类加载器先去尝试加载这个类，依次类推。</p>
+<p>代理模式是为了保证 Java 核心库的类型安全。所有 Java 应用都至少需要引用 <code>java.lang.Object</code>类，也就是说在运行的时候，<code>java.lang.Object</code>这个类需要被加载到 Java 虚拟机中。如果这个加载过程由 Java 应用自己的类加载器来完成的话，很可能就存在多个版本的 <code>java.lang.Object</code>类，而且这些类之间是不兼容的。通过代理模式，对于 Java 核心库的类的加载工作由引导类加载器来统一完成，保证了 Java 应用所使用的都是同一个版本的 Java 核心库的类，是互相兼容的。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/02/分布式框架/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/05/02/分布式框架/" class="post-title-link" itemprop="url">分布式框架</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Veröffentlicht am</span>
+              
+
+              
+                
+              
+
+              <time title="Erstellt: 2019-05-02 16:49:22 / Geändert am: 18:31:42" itemprop="dateCreated datePublished" datetime="2019-05-02T16:49:22+08:00">2019-05-02</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="HSF-——High-Speed-Framework"><a href="#HSF-——High-Speed-Framework" class="headerlink" title="HSF ——High Speed Framework"></a>HSF ——High Speed Framework</h1><ul>
+<li><p>服务提供者 </p>
+</li>
+<li><p>服务调用者</p>
+</li>
+<li><p>地址服务器</p>
+<p>给服务提供者和服务调用者提供部署环境中所有配置服务器和Diamond服务器的服务器列表信息</p>
+</li>
+<li><p>配置服务器</p>
+<p>记录环境内所有服务发布和服务订阅，并将服务相关信息推送到服务节点上。</p>
+<p>与所有服务提供者和调用者都是长连接，采用心跳的方式监控服务运行节点的状况</p>
+</li>
+<li><p>Diamond服务器</p>
+<p>通用配置管理服务器，给应用提供统一的配置设置和推送服务</p>
+</li>
+</ul>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><ol>
+<li><p>服务节点对配置服务器列表的获取。</p>
+</li>
+<li><p>服务注册发布</p>
+<p>服务提供者把自身信息发送到配置服务器</p>
+</li>
+<li><p>服务的订阅</p>
+<p>服务调用者发送调用的服务相关信息到配置服务器，配置服务器返回对应服务的ip和端口等信息</p>
+</li>
+<li><p>服务规则推送</p>
+<p>Diamond服务器对指定服务提供者或调用者推送规则</p>
+</li>
+<li><p>服务交互</p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/25/java虚拟机结构-一/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -348,7 +821,7 @@
                 
                   <span class="post-meta-item-text">Bearbeitet am</span>
                 
-                <time title="Geändert am: 2019-05-02 16:41:57" itemprop="dateModified" datetime="2019-05-02T16:41:57+08:00">2019-05-02</time>
+                <time title="Geändert am: 2019-05-17 00:48:23" itemprop="dateModified" datetime="2019-05-17T00:48:23+08:00">2019-05-17</time>
               
             
           </span>
@@ -449,9 +922,11 @@
 </li>
 </ol>
 <ol start="3">
-<li><h2 id="java堆"><a href="#java堆" class="headerlink" title="java堆"></a>java堆</h2></li>
+<li><p>动态链接</p>
+<p>每一个栈帧内部都有一个指向当前方法所在类型的运行时常量池的引用，以便对当前方法的代码实现动态链接。在class文件里，一个方法调用其他方法，或者访问成员变量，则需要通过符号引用，动态链接的作用就是就是将这些符号引用所表示的方法转换为对实际方法的直接引用</p>
+</li>
 </ol>
-<p>提供各线程共享的运行时内存区域，也是供所有类实例和数组对象分配内存的区域</p>
+<h2 id="java堆"><a href="#java堆" class="headerlink" title="java堆"></a>java堆</h2><p>提供各线程共享的运行时内存区域，也是供所有类实例和数组对象分配内存的区域</p>
 <p>堆在虚拟机启动时被创建，存储被gc管理的各种对象</p>
 <h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>提供各个线程共享的运行时内存区域。</p>
 <p>存储一个类的结构信息(运行时常量池，字段，方法数据，构造函数，普通方法的字节码内容)</p>
@@ -577,7 +1052,7 @@
                 
                   <span class="post-meta-item-text">Bearbeitet am</span>
                 
-                <time title="Geändert am: 2019-04-24 23:52:33" itemprop="dateModified" datetime="2019-04-24T23:52:33+08:00">2019-04-24</time>
+                <time title="Geändert am: 2019-05-19 20:53:52" itemprop="dateModified" datetime="2019-05-19T20:53:52+08:00">2019-05-19</time>
               
             
           </span>
@@ -613,11 +1088,228 @@
       
         
           
-            <h1 id="查询当前数据库中的事务和锁信息"><a href="#查询当前数据库中的事务和锁信息" class="headerlink" title="查询当前数据库中的事务和锁信息"></a>查询当前数据库中的事务和锁信息</h1><h2 id="information-schema-innodb-trx"><a href="#information-schema-innodb-trx" class="headerlink" title="information_schema.innodb_trx"></a>information_schema.innodb_trx</h2><p>当前运行的所有事务<br>Field     | Remark<br>————  | ——– |<br>trx_id     |    事务ID<br>trx_state     |    事务状态：<br>trx_started     |    事务开始时间；<br>trx_requested_lock_id      |innodb_locks.lock_id<br>trx_wait_started     |事务开始等待的时间<br>trx_weight     bigint(21) |         #<br>trx_mysql_thread_id     |    事务线程ID<br>trx_query     |         具体SQL语句<br>trx_operation_state     |    事务当前操作状态<br>trx_tables_in_use     |         事务中有多少个表被使用<br>trx_tables_locked     |         事务拥有多少个锁<br>trx_lock_structs     |         #<br>trx_lock_memory_bytes     |         事务锁住的内存大小（B）<br>trx_rows_locked     |         事务锁住的行数<br>trx_rows_modified     |         事务更改的行数<br>trx_concurrency_tickets     |         事务并发票数<br>trx_isolation_level     |                 事务隔离级别<br>trx_unique_checks     |        是否唯一性检查<br>trx_foreign_key_checks     |         是否外键检查<br>trx_last_foreign_key_error     |         最后的外键错误<br>trx_adaptive_hash_latched     |         #<br>trx_adaptive_hash_timeout     |         #</p>
-<h2 id="information-schema-innodb-locks"><a href="#information-schema-innodb-locks" class="headerlink" title="information_schema.innodb_locks"></a>information_schema.innodb_locks</h2><p>当前出现的锁<br>Field     | Remark<br>————–  | ——– |<br>lock_id        | 锁ID    |<br>lock_trx_id   |拥有锁的事务ID<br>lock_mode     |    锁模式<br>lock_type     |锁类型<br>lock_table     |被锁的表<br>lock_index     |     被锁的索引<br>lock_space     |     被锁的表空间号<br>lock_page    |    被锁的页号<br>lock_rec         |     被锁的记录号<br>lock_data     |     被锁的数据</p>
-<h2 id="innodb-lock-waits-innodb-lock-waits"><a href="#innodb-lock-waits-innodb-lock-waits" class="headerlink" title="innodb_lock_waits.innodb_lock_waits"></a>innodb_lock_waits.innodb_lock_waits</h2><p>锁等待的对应关系<br>Field            | Remark<br>————–  | ——– |<br>requesting_trx_id     |        请求锁的事务ID<br>requested_lock_id     |        请求锁的锁ID<br>blocking_trx_id     |        当前拥有锁的事务ID<br>blocking_lock_id     |        当前拥有锁的锁ID</p>
-<h2 id="show-full-processlist"><a href="#show-full-processlist" class="headerlink" title="show full processlist"></a>show full processlist</h2><p>查询当前数据库中运行的进程信息（相当于正在执行的每一条sql语句的状态信息）<br>Field            | Remark<br>————–  | ——– |<br>id | 一个标识<br>user| 显示当前用户，如果不是root，这 个命令就只显示你权限范围内的sql语句。<br>host| 显示这个语句是从哪个ip的哪个端口上发出的<br>db|显示 这个进程目前连接的数据库。<br>command|显示当前连接的执行的命令，一般就是休眠（sleep），查询（query），连接 （connect）。<br>time| 此这个状态持续的时间，单位是秒。<br>state|显示使用当前连接的sql语句的状态，只是语句执行中的某一个状态，一个sql语句，已查询为例，可能需要经过copying to tmp table，Sorting result，Sending data等状态才可以完成<br>info| 显示这个sql语句，因为长度有限，所以长的sql语句就显示不全，但是一个判断问题语句的重要依据。 </p>
-<h3 id="state列"><a href="#state列" class="headerlink" title="state列"></a>state列</h3><table>
+            <h1 id="查询当前数据库中的事务和锁信息"><a href="#查询当前数据库中的事务和锁信息" class="headerlink" title="查询当前数据库中的事务和锁信息"></a>查询当前数据库中的事务和锁信息</h1><h2 id="information-schema-innodb-trx"><a href="#information-schema-innodb-trx" class="headerlink" title="information_schema.innodb_trx"></a>information_schema.innodb_trx</h2><p>当前运行的所有事务 </p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>trx_id</td>
+<td>事务ID</td>
+</tr>
+<tr>
+<td>trx_state</td>
+<td>事务状态：</td>
+</tr>
+<tr>
+<td>trx_started</td>
+<td>事务开始时间；</td>
+</tr>
+<tr>
+<td>trx_requested_lock_id</td>
+<td>innodb_locks.lock_id</td>
+</tr>
+<tr>
+<td>trx_wait_started</td>
+<td>事务开始等待的时间</td>
+</tr>
+<tr>
+<td>trx_weight     bigint(21)</td>
+<td>#</td>
+</tr>
+<tr>
+<td>trx_mysql_thread_id</td>
+<td>事务线程ID</td>
+</tr>
+<tr>
+<td>trx_query</td>
+<td>具体SQL语句</td>
+</tr>
+<tr>
+<td>trx_operation_state</td>
+<td>事务当前操作状态</td>
+</tr>
+<tr>
+<td>trx_tables_in_use</td>
+<td>事务中有多少个表被使用</td>
+</tr>
+<tr>
+<td>trx_tables_locked</td>
+<td>事务拥有多少个锁</td>
+</tr>
+<tr>
+<td>trx_lock_structs</td>
+<td>#</td>
+</tr>
+<tr>
+<td>trx_lock_memory_bytes</td>
+<td>事务锁住的内存大小（B）</td>
+</tr>
+<tr>
+<td>trx_rows_locked</td>
+<td>事务锁住的行数</td>
+</tr>
+<tr>
+<td>trx_rows_modified</td>
+<td>事务更改的行数</td>
+</tr>
+<tr>
+<td>trx_concurrency_tickets</td>
+<td>事务并发票数</td>
+</tr>
+<tr>
+<td>trx_isolation_level</td>
+<td>事务隔离级别</td>
+</tr>
+<tr>
+<td>trx_unique_checks</td>
+<td>是否唯一性检查</td>
+</tr>
+<tr>
+<td>trx_foreign_key_checks</td>
+<td>是否外键检查</td>
+</tr>
+<tr>
+<td>trx_last_foreign_key_error</td>
+<td>最后的外键错误</td>
+</tr>
+<tr>
+<td>trx_adaptive_hash_latched</td>
+<td>#</td>
+</tr>
+<tr>
+<td>trx_adaptive_hash_timeout</td>
+<td>#</td>
+</tr>
+</tbody>
+</table>
+<h2 id="information-schema-innodb-locks"><a href="#information-schema-innodb-locks" class="headerlink" title="information_schema.innodb_locks"></a>information_schema.innodb_locks</h2><p>当前出现的锁 </p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lock_id</td>
+<td>锁ID</td>
+<td></td>
+</tr>
+<tr>
+<td>lock_trx_id</td>
+<td>拥有锁的事务ID</td>
+</tr>
+<tr>
+<td>lock_mode</td>
+<td>锁模式</td>
+</tr>
+<tr>
+<td>lock_type</td>
+<td>锁类型</td>
+</tr>
+<tr>
+<td>lock_table</td>
+<td>被锁的表</td>
+</tr>
+<tr>
+<td>lock_index</td>
+<td>被锁的索引</td>
+</tr>
+<tr>
+<td>lock_space</td>
+<td>被锁的表空间号</td>
+</tr>
+<tr>
+<td>lock_page</td>
+<td>被锁的页号</td>
+</tr>
+<tr>
+<td>lock_rec</td>
+<td>被锁的记录号</td>
+</tr>
+<tr>
+<td>lock_data</td>
+<td>被锁的数据</td>
+</tr>
+</tbody>
+</table>
+<h2 id="innodb-lock-waits-innodb-lock-waits"><a href="#innodb-lock-waits-innodb-lock-waits" class="headerlink" title="innodb_lock_waits.innodb_lock_waits"></a>innodb_lock_waits.innodb_lock_waits</h2><p>锁等待的对应关系</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>requesting_trx_id</td>
+<td>请求锁的事务ID</td>
+</tr>
+<tr>
+<td>requested_lock_id</td>
+<td>请求锁的锁ID</td>
+</tr>
+<tr>
+<td>blocking_trx_id</td>
+<td>当前拥有锁的事务ID</td>
+</tr>
+<tr>
+<td>blocking_lock_id</td>
+<td>当前拥有锁的锁ID</td>
+</tr>
+</tbody>
+</table>
+<h2 id="show-full-processlist"><a href="#show-full-processlist" class="headerlink" title="show full processlist"></a>show full processlist</h2><p>查询当前数据库中运行的进程信息（相当于正在执行的每一条sql语句的状态信息）</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>一个标识</td>
+</tr>
+<tr>
+<td>user</td>
+<td>显示当前用户，如果不是root，这 个命令就只显示你权限范围内的sql语句。</td>
+</tr>
+<tr>
+<td>host</td>
+<td>显示这个语句是从哪个ip的哪个端口上发出的</td>
+</tr>
+<tr>
+<td>db</td>
+<td>显示 这个进程目前连接的数据库。</td>
+</tr>
+<tr>
+<td>command</td>
+<td>显示当前连接的执行的命令，一般就是休眠（sleep），查询（query），连接 （connect）。</td>
+</tr>
+<tr>
+<td>time</td>
+<td>此这个状态持续的时间，单位是秒。</td>
+</tr>
+<tr>
+<td>state</td>
+<td>显示使用当前连接的sql语句的状态，只是语句执行中的某一个状态，一个sql语句，已查询为例，可能需要经过copying to tmp table，Sorting result，Sending data等状态才可以完成</td>
+</tr>
+<tr>
+<td>info</td>
+<td>显示这个sql语句，因为长度有限，所以长的sql语句就显示不全，但是一个判断问题语句的重要依据。 </td>
+</tr>
+</tbody>
+</table>
+<h2 id="state列"><a href="#state列" class="headerlink" title="state列"></a>state列</h2><table>
 <thead>
 <tr>
 <th>Field</th>
@@ -1372,7 +2064,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">Artikel</span>
                   </a>
                 </div>

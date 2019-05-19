@@ -96,17 +96,17 @@
 
 
 
-  <meta name="description" content="查询当前数据库中的事务和锁信息information_schema.innodb_trx当前运行的所有事务Field     | Remark————  | ——– |trx_id     |    事务IDtrx_state     |    事务状态：trx_started     |    事务开始时间；trx_requested_lock_id      |innodb_locks.loc">
+  <meta name="description" content="查询当前数据库中的事务和锁信息information_schema.innodb_trx当前运行的所有事务     Field Remark     trx_id 事务ID   trx_state 事务状态：   trx_started 事务开始时间；   trx_requested_lock_id innodb_locks.lock_id   trx_wait_started 事务开始等待的时间">
 <meta property="og:type" content="article">
 <meta property="og:title" content="查询当前数据库中的事务和锁信息">
 <meta property="og:url" content="http://yoursite.com/2019/04/19/Mysql事务锁信息/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="查询当前数据库中的事务和锁信息information_schema.innodb_trx当前运行的所有事务Field     | Remark————  | ——– |trx_id     |    事务IDtrx_state     |    事务状态：trx_started     |    事务开始时间；trx_requested_lock_id      |innodb_locks.loc">
+<meta property="og:description" content="查询当前数据库中的事务和锁信息information_schema.innodb_trx当前运行的所有事务     Field Remark     trx_id 事务ID   trx_state 事务状态：   trx_started 事务开始时间；   trx_requested_lock_id innodb_locks.lock_id   trx_wait_started 事务开始等待的时间">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-24T15:52:33.824Z">
+<meta property="og:updated_time" content="2019-05-19T12:53:52.161Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="查询当前数据库中的事务和锁信息">
-<meta name="twitter:description" content="查询当前数据库中的事务和锁信息information_schema.innodb_trx当前运行的所有事务Field     | Remark————  | ——– |trx_id     |    事务IDtrx_state     |    事务状态：trx_started     |    事务开始时间；trx_requested_lock_id      |innodb_locks.loc">
+<meta name="twitter:description" content="查询当前数据库中的事务和锁信息information_schema.innodb_trx当前运行的所有事务     Field Remark     trx_id 事务ID   trx_state 事务状态：   trx_started 事务开始时间；   trx_requested_lock_id innodb_locks.lock_id   trx_wait_started 事务开始等待的时间">
 
 
 
@@ -349,7 +349,7 @@
                 
                   <span class="post-meta-item-text">Bearbeitet am</span>
                 
-                <time title="Geändert am: 2019-04-24 23:52:33" itemprop="dateModified" datetime="2019-04-24T23:52:33+08:00">2019-04-24</time>
+                <time title="Geändert am: 2019-05-19 20:53:52" itemprop="dateModified" datetime="2019-05-19T20:53:52+08:00">2019-05-19</time>
               
             
           </span>
@@ -383,11 +383,228 @@
       
 
       
-        <h1 id="查询当前数据库中的事务和锁信息"><a href="#查询当前数据库中的事务和锁信息" class="headerlink" title="查询当前数据库中的事务和锁信息"></a>查询当前数据库中的事务和锁信息</h1><h2 id="information-schema-innodb-trx"><a href="#information-schema-innodb-trx" class="headerlink" title="information_schema.innodb_trx"></a>information_schema.innodb_trx</h2><p>当前运行的所有事务<br>Field     | Remark<br>————  | ——– |<br>trx_id     |    事务ID<br>trx_state     |    事务状态：<br>trx_started     |    事务开始时间；<br>trx_requested_lock_id      |innodb_locks.lock_id<br>trx_wait_started     |事务开始等待的时间<br>trx_weight     bigint(21) |         #<br>trx_mysql_thread_id     |    事务线程ID<br>trx_query     |         具体SQL语句<br>trx_operation_state     |    事务当前操作状态<br>trx_tables_in_use     |         事务中有多少个表被使用<br>trx_tables_locked     |         事务拥有多少个锁<br>trx_lock_structs     |         #<br>trx_lock_memory_bytes     |         事务锁住的内存大小（B）<br>trx_rows_locked     |         事务锁住的行数<br>trx_rows_modified     |         事务更改的行数<br>trx_concurrency_tickets     |         事务并发票数<br>trx_isolation_level     |                 事务隔离级别<br>trx_unique_checks     |        是否唯一性检查<br>trx_foreign_key_checks     |         是否外键检查<br>trx_last_foreign_key_error     |         最后的外键错误<br>trx_adaptive_hash_latched     |         #<br>trx_adaptive_hash_timeout     |         #</p>
-<h2 id="information-schema-innodb-locks"><a href="#information-schema-innodb-locks" class="headerlink" title="information_schema.innodb_locks"></a>information_schema.innodb_locks</h2><p>当前出现的锁<br>Field     | Remark<br>————–  | ——– |<br>lock_id        | 锁ID    |<br>lock_trx_id   |拥有锁的事务ID<br>lock_mode     |    锁模式<br>lock_type     |锁类型<br>lock_table     |被锁的表<br>lock_index     |     被锁的索引<br>lock_space     |     被锁的表空间号<br>lock_page    |    被锁的页号<br>lock_rec         |     被锁的记录号<br>lock_data     |     被锁的数据</p>
-<h2 id="innodb-lock-waits-innodb-lock-waits"><a href="#innodb-lock-waits-innodb-lock-waits" class="headerlink" title="innodb_lock_waits.innodb_lock_waits"></a>innodb_lock_waits.innodb_lock_waits</h2><p>锁等待的对应关系<br>Field            | Remark<br>————–  | ——– |<br>requesting_trx_id     |        请求锁的事务ID<br>requested_lock_id     |        请求锁的锁ID<br>blocking_trx_id     |        当前拥有锁的事务ID<br>blocking_lock_id     |        当前拥有锁的锁ID</p>
-<h2 id="show-full-processlist"><a href="#show-full-processlist" class="headerlink" title="show full processlist"></a>show full processlist</h2><p>查询当前数据库中运行的进程信息（相当于正在执行的每一条sql语句的状态信息）<br>Field            | Remark<br>————–  | ——– |<br>id | 一个标识<br>user| 显示当前用户，如果不是root，这 个命令就只显示你权限范围内的sql语句。<br>host| 显示这个语句是从哪个ip的哪个端口上发出的<br>db|显示 这个进程目前连接的数据库。<br>command|显示当前连接的执行的命令，一般就是休眠（sleep），查询（query），连接 （connect）。<br>time| 此这个状态持续的时间，单位是秒。<br>state|显示使用当前连接的sql语句的状态，只是语句执行中的某一个状态，一个sql语句，已查询为例，可能需要经过copying to tmp table，Sorting result，Sending data等状态才可以完成<br>info| 显示这个sql语句，因为长度有限，所以长的sql语句就显示不全，但是一个判断问题语句的重要依据。 </p>
-<h3 id="state列"><a href="#state列" class="headerlink" title="state列"></a>state列</h3><table>
+        <h1 id="查询当前数据库中的事务和锁信息"><a href="#查询当前数据库中的事务和锁信息" class="headerlink" title="查询当前数据库中的事务和锁信息"></a>查询当前数据库中的事务和锁信息</h1><h2 id="information-schema-innodb-trx"><a href="#information-schema-innodb-trx" class="headerlink" title="information_schema.innodb_trx"></a>information_schema.innodb_trx</h2><p>当前运行的所有事务 </p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>trx_id</td>
+<td>事务ID</td>
+</tr>
+<tr>
+<td>trx_state</td>
+<td>事务状态：</td>
+</tr>
+<tr>
+<td>trx_started</td>
+<td>事务开始时间；</td>
+</tr>
+<tr>
+<td>trx_requested_lock_id</td>
+<td>innodb_locks.lock_id</td>
+</tr>
+<tr>
+<td>trx_wait_started</td>
+<td>事务开始等待的时间</td>
+</tr>
+<tr>
+<td>trx_weight     bigint(21)</td>
+<td>#</td>
+</tr>
+<tr>
+<td>trx_mysql_thread_id</td>
+<td>事务线程ID</td>
+</tr>
+<tr>
+<td>trx_query</td>
+<td>具体SQL语句</td>
+</tr>
+<tr>
+<td>trx_operation_state</td>
+<td>事务当前操作状态</td>
+</tr>
+<tr>
+<td>trx_tables_in_use</td>
+<td>事务中有多少个表被使用</td>
+</tr>
+<tr>
+<td>trx_tables_locked</td>
+<td>事务拥有多少个锁</td>
+</tr>
+<tr>
+<td>trx_lock_structs</td>
+<td>#</td>
+</tr>
+<tr>
+<td>trx_lock_memory_bytes</td>
+<td>事务锁住的内存大小（B）</td>
+</tr>
+<tr>
+<td>trx_rows_locked</td>
+<td>事务锁住的行数</td>
+</tr>
+<tr>
+<td>trx_rows_modified</td>
+<td>事务更改的行数</td>
+</tr>
+<tr>
+<td>trx_concurrency_tickets</td>
+<td>事务并发票数</td>
+</tr>
+<tr>
+<td>trx_isolation_level</td>
+<td>事务隔离级别</td>
+</tr>
+<tr>
+<td>trx_unique_checks</td>
+<td>是否唯一性检查</td>
+</tr>
+<tr>
+<td>trx_foreign_key_checks</td>
+<td>是否外键检查</td>
+</tr>
+<tr>
+<td>trx_last_foreign_key_error</td>
+<td>最后的外键错误</td>
+</tr>
+<tr>
+<td>trx_adaptive_hash_latched</td>
+<td>#</td>
+</tr>
+<tr>
+<td>trx_adaptive_hash_timeout</td>
+<td>#</td>
+</tr>
+</tbody>
+</table>
+<h2 id="information-schema-innodb-locks"><a href="#information-schema-innodb-locks" class="headerlink" title="information_schema.innodb_locks"></a>information_schema.innodb_locks</h2><p>当前出现的锁 </p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lock_id</td>
+<td>锁ID</td>
+<td></td>
+</tr>
+<tr>
+<td>lock_trx_id</td>
+<td>拥有锁的事务ID</td>
+</tr>
+<tr>
+<td>lock_mode</td>
+<td>锁模式</td>
+</tr>
+<tr>
+<td>lock_type</td>
+<td>锁类型</td>
+</tr>
+<tr>
+<td>lock_table</td>
+<td>被锁的表</td>
+</tr>
+<tr>
+<td>lock_index</td>
+<td>被锁的索引</td>
+</tr>
+<tr>
+<td>lock_space</td>
+<td>被锁的表空间号</td>
+</tr>
+<tr>
+<td>lock_page</td>
+<td>被锁的页号</td>
+</tr>
+<tr>
+<td>lock_rec</td>
+<td>被锁的记录号</td>
+</tr>
+<tr>
+<td>lock_data</td>
+<td>被锁的数据</td>
+</tr>
+</tbody>
+</table>
+<h2 id="innodb-lock-waits-innodb-lock-waits"><a href="#innodb-lock-waits-innodb-lock-waits" class="headerlink" title="innodb_lock_waits.innodb_lock_waits"></a>innodb_lock_waits.innodb_lock_waits</h2><p>锁等待的对应关系</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>requesting_trx_id</td>
+<td>请求锁的事务ID</td>
+</tr>
+<tr>
+<td>requested_lock_id</td>
+<td>请求锁的锁ID</td>
+</tr>
+<tr>
+<td>blocking_trx_id</td>
+<td>当前拥有锁的事务ID</td>
+</tr>
+<tr>
+<td>blocking_lock_id</td>
+<td>当前拥有锁的锁ID</td>
+</tr>
+</tbody>
+</table>
+<h2 id="show-full-processlist"><a href="#show-full-processlist" class="headerlink" title="show full processlist"></a>show full processlist</h2><p>查询当前数据库中运行的进程信息（相当于正在执行的每一条sql语句的状态信息）</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>一个标识</td>
+</tr>
+<tr>
+<td>user</td>
+<td>显示当前用户，如果不是root，这 个命令就只显示你权限范围内的sql语句。</td>
+</tr>
+<tr>
+<td>host</td>
+<td>显示这个语句是从哪个ip的哪个端口上发出的</td>
+</tr>
+<tr>
+<td>db</td>
+<td>显示 这个进程目前连接的数据库。</td>
+</tr>
+<tr>
+<td>command</td>
+<td>显示当前连接的执行的命令，一般就是休眠（sleep），查询（query），连接 （connect）。</td>
+</tr>
+<tr>
+<td>time</td>
+<td>此这个状态持续的时间，单位是秒。</td>
+</tr>
+<tr>
+<td>state</td>
+<td>显示使用当前连接的sql语句的状态，只是语句执行中的某一个状态，一个sql语句，已查询为例，可能需要经过copying to tmp table，Sorting result，Sending data等状态才可以完成</td>
+</tr>
+<tr>
+<td>info</td>
+<td>显示这个sql语句，因为长度有限，所以长的sql语句就显示不全，但是一个判断问题语句的重要依据。 </td>
+</tr>
+</tbody>
+</table>
+<h2 id="state列"><a href="#state列" class="headerlink" title="state列"></a>state列</h2><table>
 <thead>
 <tr>
 <th>Field</th>
@@ -612,7 +829,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">Artikel</span>
                   </a>
                 </div>
@@ -654,7 +871,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#查询当前数据库中的事务和锁信息"><span class="nav-number">1.</span> <span class="nav-text">查询当前数据库中的事务和锁信息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#information-schema-innodb-trx"><span class="nav-number">1.1.</span> <span class="nav-text">information_schema.innodb_trx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#information-schema-innodb-locks"><span class="nav-number">1.2.</span> <span class="nav-text">information_schema.innodb_locks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#innodb-lock-waits-innodb-lock-waits"><span class="nav-number">1.3.</span> <span class="nav-text">innodb_lock_waits.innodb_lock_waits</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#show-full-processlist"><span class="nav-number">1.4.</span> <span class="nav-text">show full processlist</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#state列"><span class="nav-number">1.4.1.</span> <span class="nav-text">state列</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#查询当前数据库中的事务和锁信息"><span class="nav-number">1.</span> <span class="nav-text">查询当前数据库中的事务和锁信息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#information-schema-innodb-trx"><span class="nav-number">1.1.</span> <span class="nav-text">information_schema.innodb_trx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#information-schema-innodb-locks"><span class="nav-number">1.2.</span> <span class="nav-text">information_schema.innodb_locks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#innodb-lock-waits-innodb-lock-waits"><span class="nav-number">1.3.</span> <span class="nav-text">innodb_lock_waits.innodb_lock_waits</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#show-full-processlist"><span class="nav-number">1.4.</span> <span class="nav-text">show full processlist</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#state列"><span class="nav-number">1.5.</span> <span class="nav-text">state列</span></a></li></ol></li></ol></div>
             
 
           </div>

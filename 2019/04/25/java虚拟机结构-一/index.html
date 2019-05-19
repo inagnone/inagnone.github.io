@@ -104,7 +104,7 @@
 <meta property="og:description" content="Class文件精确定义了类与接口的表示形式，包括在平台相关的目标文件格式中一些细节上的惯例。 数据类型java虚拟机可以操作的数据类型分给两类：  原始类型 数值类型 整数类型  byte类型：8位有符号 short类型：16位有符号 int类型：32位有符号 long类型：64位有符号  char类型：16位无符号    浮点类型  float类型：32位单精度浮点数 double类型：64位">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="e:/inagnone.github.io/source/_posts/pic/1240.png">
-<meta property="og:updated_time" content="2019-05-02T08:41:57.542Z">
+<meta property="og:updated_time" content="2019-05-16T16:48:23.054Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java虚拟机结构(一)">
 <meta name="twitter:description" content="Class文件精确定义了类与接口的表示形式，包括在平台相关的目标文件格式中一些细节上的惯例。 数据类型java虚拟机可以操作的数据类型分给两类：  原始类型 数值类型 整数类型  byte类型：8位有符号 short类型：16位有符号 int类型：32位有符号 long类型：64位有符号  char类型：16位无符号    浮点类型  float类型：32位单精度浮点数 double类型：64位">
@@ -351,7 +351,7 @@
                 
                   <span class="post-meta-item-text">Bearbeitet am</span>
                 
-                <time title="Geändert am: 2019-05-02 16:41:57" itemprop="dateModified" datetime="2019-05-02T16:41:57+08:00">2019-05-02</time>
+                <time title="Geändert am: 2019-05-17 00:48:23" itemprop="dateModified" datetime="2019-05-17T00:48:23+08:00">2019-05-17</time>
               
             
           </span>
@@ -450,9 +450,11 @@
 </li>
 </ol>
 <ol start="3">
-<li><h2 id="java堆"><a href="#java堆" class="headerlink" title="java堆"></a>java堆</h2></li>
+<li><p>动态链接</p>
+<p>每一个栈帧内部都有一个指向当前方法所在类型的运行时常量池的引用，以便对当前方法的代码实现动态链接。在class文件里，一个方法调用其他方法，或者访问成员变量，则需要通过符号引用，动态链接的作用就是就是将这些符号引用所表示的方法转换为对实际方法的直接引用</p>
+</li>
 </ol>
-<p>提供各线程共享的运行时内存区域，也是供所有类实例和数组对象分配内存的区域</p>
+<h2 id="java堆"><a href="#java堆" class="headerlink" title="java堆"></a>java堆</h2><p>提供各线程共享的运行时内存区域，也是供所有类实例和数组对象分配内存的区域</p>
 <p>堆在虚拟机启动时被创建，存储被gc管理的各种对象</p>
 <h2 id="方法区"><a href="#方法区" class="headerlink" title="方法区"></a>方法区</h2><p>提供各个线程共享的运行时内存区域。</p>
 <p>存储一个类的结构信息(运行时常量池，字段，方法数据，构造函数，普通方法的字节码内容)</p>
@@ -499,6 +501,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/02/分布式框架/" rel="prev" title="分布式框架">
+                分布式框架 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -567,7 +573,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">Artikel</span>
                   </a>
                 </div>
