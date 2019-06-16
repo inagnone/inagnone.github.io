@@ -96,14 +96,17 @@
 
 
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="class 文件格式class文件是用来存储经编译器编译过的，与硬件和操作系统独立的二进制代码。class文件精确地定义了一个类或者接口，包括其字节顺序等这些在指定平台被认为是理所当然的细节。 数据类型类似java编程语言，java虚拟机在两种类型上运行：基本类型和引用类型。因此这两种类型的值可以被存储在变量中，作为参数传递，被方法返回或者执行运算。 java虚拟机希望几乎所有的类型检查都在运行之">
+<meta property="og:type" content="article">
 <meta property="og:title" content="oracle虚拟机规范翻译--java虚拟机结构">
 <meta property="og:url" content="http://yoursite.com/2019/05/19/oracle虚拟机规范翻译-java虚拟机结构/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="class 文件格式class文件是用来存储经编译器编译过的，与硬件和操作系统独立的二进制代码。class文件精确地定义了一个类或者接口，包括其字节顺序等这些在指定平台被认为是理所当然的细节。 数据类型类似java编程语言，java虚拟机在两种类型上运行：基本类型和引用类型。因此这两种类型的值可以被存储在变量中，作为参数传递，被方法返回或者执行运算。 java虚拟机希望几乎所有的类型检查都在运行之">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-05-19T12:48:55.061Z">
+<meta property="og:updated_time" content="2019-05-19T18:13:17.601Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="oracle虚拟机规范翻译--java虚拟机结构">
+<meta name="twitter:description" content="class 文件格式class文件是用来存储经编译器编译过的，与硬件和操作系统独立的二进制代码。class文件精确地定义了一个类或者接口，包括其字节顺序等这些在指定平台被认为是理所当然的细节。 数据类型类似java编程语言，java虚拟机在两种类型上运行：基本类型和引用类型。因此这两种类型的值可以被存储在变量中，作为参数传递，被方法返回或者执行运算。 java虚拟机希望几乎所有的类型检查都在运行之">
 
 
 
@@ -189,7 +192,7 @@
   </div>
 
   <div class="site-nav-toggle">
-    <button aria-label="Navigationsleiste an/ausschalten">
+    <button aria-label="Toggle navigation bar">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -217,7 +220,7 @@
 
     
 
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Startseite</a>
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
 
   </li>
         
@@ -234,7 +237,7 @@
 
     
 
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archiv</a>
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
 
   </li>
 
@@ -322,19 +325,31 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               
-                <span class="post-meta-item-text">Veröffentlicht am</span>
+                <span class="post-meta-item-text">Posted on</span>
               
 
               
                 
               
 
-              <time title="Erstellt: 2019-05-19 20:48:54 / Geändert am: 20:48:55" itemprop="dateCreated datePublished" datetime="2019-05-19T20:48:54+08:00">2019-05-19</time>
+              <time title="Created: 2019-05-19 20:48:54" itemprop="dateCreated datePublished" datetime="2019-05-19T20:48:54+08:00">2019-05-19</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-05-20 02:13:17" itemprop="dateModified" datetime="2019-05-20T02:13:17+08:00">2019-05-20</time>
               
             
           </span>
@@ -368,7 +383,10 @@
       
 
       
-        
+        <h1 id="class-文件格式"><a href="#class-文件格式" class="headerlink" title="class 文件格式"></a>class 文件格式</h1><p>class文件是用来存储经编译器编译过的，与硬件和操作系统独立的二进制代码。class文件精确地定义了一个类或者接口，包括其字节顺序等这些在指定平台被认为是理所当然的细节。</p>
+<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><p>类似java编程语言，java虚拟机在两种类型上运行：基本类型和引用类型。因此这两种类型的值可以被存储在变量中，作为参数传递，被方法返回或者执行运算。</p>
+<p>java虚拟机希望几乎所有的类型检查都在运行之前，有编译器负责而不需要java虚拟机来进行。基本类型的值在运行时不需要被标记或者其他检查来确定它的实际数据类型，也不需要和引用类型的值区分开。取而代之，java</p>
+
       
     </div>
 
@@ -407,6 +425,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/17/activiti/" rel="prev" title>
+                 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -450,8 +472,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -466,8 +497,8 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">8</span>
-                    <span class="site-state-item-name">Artikel</span>
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
               
@@ -498,6 +529,23 @@
       </div>
 
       
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#class-文件格式"><span class="nav-number">1.</span> <span class="nav-text">class 文件格式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据类型"><span class="nav-number">2.</span> <span class="nav-text">数据类型</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
 
       
 
@@ -524,7 +572,7 @@
 </div>
 
 
-  <div class="powered-by">Erstellt mit  <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
 
@@ -532,7 +580,7 @@
 
 
 
-  <div class="theme-info">Design – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.1</div>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.1</div>
 
 
 

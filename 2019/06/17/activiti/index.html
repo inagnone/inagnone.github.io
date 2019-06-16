@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.1.1',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="数据库设计通用数据表（以ACT_GE_开头）存放一些通用数据 资源表（ACT_GE_BYTEARRAY）用于保存于流程引擎相关的资源，资源会被转换为byte数组保存到这个表中。一般情况下，activiti使用这个表来保存字符串、流程文件的内容和流程图片内容    字段 含义 关联表     ID_ 主键    REV_ 数据版本    NAME_ 资源名称    DEPLOYMENT_ID_ 部署">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2019/06/17/activiti/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="数据库设计通用数据表（以ACT_GE_开头）存放一些通用数据 资源表（ACT_GE_BYTEARRAY）用于保存于流程引擎相关的资源，资源会被转换为byte数组保存到这个表中。一般情况下，activiti使用这个表来保存字符串、流程文件的内容和流程图片内容    字段 含义 关联表     ID_ 主键    REV_ 数据版本    NAME_ 资源名称    DEPLOYMENT_ID_ 部署">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-06-16T17:58:17.379Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hexo">
+<meta name="twitter:description" content="数据库设计通用数据表（以ACT_GE_开头）存放一些通用数据 资源表（ACT_GE_BYTEARRAY）用于保存于流程引擎相关的资源，资源会被转换为byte数组保存到这个表中。一般情况下，activiti使用这个表来保存字符串、流程文件的内容和流程图片内容    字段 含义 关联表     ID_ 主键    REV_ 数据版本    NAME_ 资源名称    DEPLOYMENT_ID_ 部署">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/06/17/activiti/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title> | Hexo</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/17/activiti/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-06-17 00:22:05 / Modified: 01:58:17" itemprop="dateCreated datePublished" datetime="2019-06-17T00:22:05+08:00">2019-06-17</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="数据库设计"><a href="#数据库设计" class="headerlink" title="数据库设计"></a>数据库设计</h1><h2 id="通用数据表（以ACT-GE-开头）"><a href="#通用数据表（以ACT-GE-开头）" class="headerlink" title="通用数据表（以ACT_GE_开头）"></a>通用数据表（以ACT_GE_开头）</h2><p>存放一些通用数据</p>
+<h3 id="资源表（ACT-GE-BYTEARRAY）"><a href="#资源表（ACT-GE-BYTEARRAY）" class="headerlink" title="资源表（ACT_GE_BYTEARRAY）"></a>资源表（ACT_GE_BYTEARRAY）</h3><p>用于保存于流程引擎相关的资源，资源会被转换为byte数组保存到这个表中。一般情况下，activiti使用这个表来保存字符串、流程文件的内容和流程图片内容</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+<th>关联表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID_</td>
+<td>主键</td>
+<td></td>
+</tr>
+<tr>
+<td>REV_</td>
+<td>数据版本</td>
+<td></td>
+</tr>
+<tr>
+<td>NAME_</td>
+<td>资源名称</td>
+<td></td>
+</tr>
+<tr>
+<td>DEPLOYMENT_ID_</td>
+<td>部署ID</td>
+<td>ACT_RE_DEPLOYMENT_ID</td>
+</tr>
+<tr>
+<td>BYTES_</td>
+<td>资源内容</td>
+<td></td>
+</tr>
+<tr>
+<td>GENERATED_</td>
+<td>是否有activiti自动产生的资源</td>
+</tr>
+</tbody>
+</table>
+<h3 id="属性表（ACT-GE-PROPERTY）"><a href="#属性表（ACT-GE-PROPERTY）" class="headerlink" title="属性表（ACT_GE_PROPERTY）"></a>属性表（ACT_GE_PROPERTY）</h3><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+<th>关联表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME_</td>
+<td>属性名称</td>
+<td></td>
+</tr>
+<tr>
+<td>VALUE_</td>
+<td>属性值</td>
+<td></td>
+</tr>
+<tr>
+<td>REV_</td>
+<td>数据版本号</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>初始化时会自动加入4个属性：</p>
+<p>historyLevel:</p>
+<p>next.dbid:</p>
+<p>schema.history:</p>
+<p>schema.versino:</p>
+</blockquote>
+<h2 id="流程存储表（以ACT-RE-开头）"><a href="#流程存储表（以ACT-RE-开头）" class="headerlink" title="流程存储表（以ACT_RE_开头）"></a>流程存储表（以ACT_RE_开头）</h2><p>保存流程定义和部署信息</p>
+<h3 id="部署数据表（ACT-RE-DEPLOYMENT）"><a href="#部署数据表（ACT-RE-DEPLOYMENT）" class="headerlink" title="部署数据表（ACT_RE_DEPLOYMENT）"></a>部署数据表（ACT_RE_DEPLOYMENT）</h3><p>对流程部署这一操作的记录</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>含义</th>
+<th>关联表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID_</td>
+<td>主键</td>
+<td></td>
+</tr>
+<tr>
+<td>NAME_</td>
+<td>部署名称</td>
+<td></td>
+</tr>
+<tr>
+<td>DEPLOYMENT_TIME_</td>
+<td>部署时间</td>
+</tr>
+</tbody>
+</table>
+<h3 id="流程定义表（ACT-RE-PROCDEF）"><a href="#流程定义表（ACT-RE-PROCDEF）" class="headerlink" title="流程定义表（ACT_RE_PROCDEF）"></a>流程定义表（ACT_RE_PROCDEF）</h3><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+<th>关联表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID_</td>
+<td>主键</td>
+<td></td>
+</tr>
+<tr>
+<td>REV_</td>
+<td>数据版本</td>
+<td></td>
+</tr>
+<tr>
+<td>CATEGORY_</td>
+<td>流程定义分类</td>
+<td></td>
+</tr>
+<tr>
+<td>NAME_</td>
+<td>流程定义的名称，bpmn的xml文件中process元素的name</td>
+<td></td>
+</tr>
+<tr>
+<td>KEY_</td>
+<td>流程定义的key，bpmn的xml文件中process元素的id</td>
+<td></td>
+</tr>
+<tr>
+<td>VERSION</td>
+<td>流程定义的版本，流水号，同名流程文件重复部署，版本号+1</td>
+<td></td>
+</tr>
+<tr>
+<td>DEPLOYMENT_ID</td>
+<td>流程定义的对应的部署数ID</td>
+<td>ACT_RE_DEPLOYMENT</td>
+</tr>
+<tr>
+<td>RESOURCE_NAME</td>
+<td>流程定义对应资源名称，一般问流程文件相对路径</td>
+<td></td>
+</tr>
+<tr>
+<td>DGRM_RESOURCE_NAME</td>
+<td>l流程定义对应的流程图的资源名称</td>
+<td></td>
+</tr>
+<tr>
+<td>HAS_START_FROM_KEY_</td>
+<td>流程文件是否有开始表单</td>
+<td></td>
+</tr>
+<tr>
+<td>SUSPENSION_STATE_</td>
+<td>流程定义的状态是激活还是终止，激活时为1，终止时为2。如果流程定义终止，将不能启动流程</td>
+</tr>
+</tbody>
+</table>
+<h2 id="运行时数据表（以ACT-RU开头）"><a href="#运行时数据表（以ACT-RU开头）" class="headerlink" title="运行时数据表（以ACT_RU开头）"></a>运行时数据表（以ACT_RU开头）</h2><h3 id="流程实例（执行流）表（ACT-RU-EXECUTION）"><a href="#流程实例（执行流）表（ACT-RU-EXECUTION）" class="headerlink" title="流程实例（执行流）表（ACT_RU_EXECUTION）"></a>流程实例（执行流）表（ACT_RU_EXECUTION）</h3><p>流程启动后会产生一个流程实例，同时会产生相应的执行流，如果一个流程实例只有一条执行流，那么该表中只产生一条数据，既表示流程实例也表示执行流</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+<th>关联表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID_</td>
+<td>主键</td>
+<td></td>
+</tr>
+<tr>
+<td>REV_</td>
+<td>数据版本</td>
+<td></td>
+</tr>
+<tr>
+<td>PROC_INST_ID</td>
+<td>流程实例id</td>
+<td></td>
+</tr>
+<tr>
+<td>BUSINESS_KEY_</td>
+<td>业务主键</td>
+<td></td>
+</tr>
+<tr>
+<td>PARENT_ID</td>
+<td>流程实例的id。表示当前执行流数据属于哪一个流程实例</td>
+<td>ACT_RU_EXECUTION</td>
+</tr>
+<tr>
+<td>PROC_DEF_ID</td>
+<td>流程定义id</td>
+<td>ACT_RE_PROCDEF</td>
+</tr>
+<tr>
+<td>SUPER_EXEC</td>
+<td>父执行流id。表示当前流程实例属于哪一个执行流</td>
+<td>ACT_RU_EXECUTION</td>
+</tr>
+<tr>
+<td>ACT_ID</td>
+<td>当前执行流行为的id</td>
+<td></td>
+</tr>
+<tr>
+<td>IS_ACTIVE</td>
+<td>当前执行流是否活跃</td>
+<td></td>
+</tr>
+<tr>
+<td>IS_CONCURRENT</td>
+<td>执行流是否正在并行</td>
+<td></td>
+</tr>
+<tr>
+<td>IS_SCOPE</td>
+<td>是否在执行流范围内</td>
+<td></td>
+</tr>
+<tr>
+<td>IS_ENEVT_SCOPE</td>
+<td>是否在事件范围内</td>
+<td></td>
+</tr>
+<tr>
+<td>SUSPENSION_STATE</td>
+<td>标识流程的中断状态</td>
+<td></td>
+</tr>
+<tr>
+<td>CACHED_ENT_STATE</td>
+<td>流程实例的缓存</td>
+</tr>
+</tbody>
+</table>
+<h3 id="流程任务表（ACT-RU-TASK）"><a href="#流程任务表（ACT-RU-TASK）" class="headerlink" title="流程任务表（ACT_RU_TASK）"></a>流程任务表（ACT_RU_TASK）</h3><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+<th>关联表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID_</td>
+<td>主键</td>
+<td></td>
+</tr>
+<tr>
+<td>REV_</td>
+<td>数据版本</td>
+<td></td>
+</tr>
+<tr>
+<td>ECECUTION_ID</td>
+<td>任务所处执行流id</td>
+<td>ACT_RU_EXECUTION</td>
+</tr>
+<tr>
+<td>PROC_INST_ID</td>
+<td>对应流程实例id</td>
+<td>ACT_RU_EXECUTION</td>
+</tr>
+<tr>
+<td>PROC_DEF_ID</td>
+<td>对应流程定义id</td>
+<td>ACT_RE_PROCDEF</td>
+</tr>
+<tr>
+<td>NAME_</td>
+<td>任务名称</td>
+<td></td>
+</tr>
+<tr>
+<td>PARENT_TASK_ID</td>
+<td>父任务id</td>
+<td>ACT_RU_TASK</td>
+</tr>
+<tr>
+<td>DESCRIPTINO</td>
+<td>任务描述</td>
+<td></td>
+</tr>
+<tr>
+<td>TASK_DEF_KEY</td>
+<td>任务定义id，bpmn的xml文件中任务的id</td>
+<td></td>
+</tr>
+<tr>
+<td>OWNER</td>
+<td>任务拥有人</td>
+<td></td>
+</tr>
+<tr>
+<td>ASSIGNEE</td>
+<td>任务指派人</td>
+<td></td>
+</tr>
+<tr>
+<td>DELEGATINO</td>
+<td>任务委托状态（等待和已解决）</td>
+<td></td>
+</tr>
+<tr>
+<td>PRIORITY</td>
+<td>任务优先级</td>
+<td></td>
+</tr>
+<tr>
+<td>CREATE_TIME</td>
+<td>任务创建时间</td>
+<td></td>
+</tr>
+<tr>
+<td>DUE_DATE</td>
+<td>任务预定日期</td>
+</tr>
+</tbody>
+</table>
+<h3 id="流程参数表（ACT-RU-VARIABLE）"><a href="#流程参数表（ACT-RU-VARIABLE）" class="headerlink" title="流程参数表（ACT_RU_VARIABLE）"></a>流程参数表（ACT_RU_VARIABLE）</h3><p>流程参数类型:</p>
+<ul>
+<li>流程实例参数</li>
+<li>执行流参数</li>
+<li>任务参数</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+<th>关联表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>主键</td>
+<td></td>
+</tr>
+<tr>
+<td>REV_</td>
+<td>数据版本</td>
+<td></td>
+</tr>
+<tr>
+<td>TYPE</td>
+<td>参数类型，类型有activiti提供</td>
+<td></td>
+</tr>
+<tr>
+<td>NAME</td>
+<td>参数名称</td>
+<td></td>
+</tr>
+<tr>
+<td>EXECUTION_ID</td>
+<td>参数对应执行流id</td>
+<td>ACT_RU_EXECUTION</td>
+</tr>
+<tr>
+<td>PROC_INST_ID</td>
+<td>参数对应流程实例id</td>
+<td>ACT_RU_EXECUTION</td>
+</tr>
+<tr>
+<td>TASK_ID</td>
+<td>参数对应任务id</td>
+<td>ACT_RU_TASK</td>
+</tr>
+<tr>
+<td>BYTEARRAY_ID</td>
+<td>引用资源作为参数值的资源id</td>
+<td>ACT_GE_BYTEARRAY</td>
+</tr>
+<tr>
+<td>DOUBLE</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>LONG</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>TEXT</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>TEXT2</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="历史数据表（以ACT-HI开头）"><a href="#历史数据表（以ACT-HI开头）" class="headerlink" title="历史数据表（以ACT_HI开头）"></a>历史数据表（以ACT_HI开头）</h2><h3 id="流程实例表-（ACT-HI-PROCINST）"><a href="#流程实例表-（ACT-HI-PROCINST）" class="headerlink" title="流程实例表 （ACT_HI_PROCINST）"></a>流程实例表 （ACT_HI_PROCINST）</h3><table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+<th>关联表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>START_ACT_ID</td>
+<td>流程开始的活动的id（开始事件的id）</td>
+<td></td>
+</tr>
+<tr>
+<td>END_ACT_ID</td>
+<td>流程结束的活动的id（结束事件的id）</td>
+<td></td>
+</tr>
+<tr>
+<td>DELETE_REASON</td>
+<td>流程实例删除原因，如果流程正常结束，该字段为completed</td>
+</tr>
+</tbody>
+</table>
+<h3 id="流程明细表（ACT-HI-DETAIL）"><a href="#流程明细表（ACT-HI-DETAIL）" class="headerlink" title="流程明细表（ACT_HI_DETAIL）"></a>流程明细表（ACT_HI_DETAIL）</h3><h3 id="历史任务表（ACT-HI-TASK）"><a href="#历史任务表（ACT-HI-TASK）" class="headerlink" title="历史任务表（ACT_HI_TASK）"></a>历史任务表（ACT_HI_TASK）</h3><p>与运行时任务表相似</p>
+<h3 id="历史行为表（ACT-HI-ACTINST）"><a href="#历史行为表（ACT-HI-ACTINST）" class="headerlink" title="历史行为表（ACT_HI_ACTINST）"></a>历史行为表（ACT_HI_ACTINST）</h3><p>记录每一个流程活动的实例，一个流程活动记为一条记录（包括开始事件，结束事件）</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th>说明</th>
+<th>关联表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID</td>
+<td>主键</td>
+<td></td>
+</tr>
+<tr>
+<td>PROC_DEF_ID</td>
+<td>流程定义id</td>
+<td>ACT_RE_PROCDEF</td>
+</tr>
+<tr>
+<td>PROC_INST_ID</td>
+<td>流程实例id</td>
+<td></td>
+</tr>
+<tr>
+<td>EXECUTION_ID</td>
+<td>执行流id</td>
+<td></td>
+</tr>
+<tr>
+<td>ACT_ID</td>
+<td>流程活动的id（bpmn的xml文件中活动的id）</td>
+<td></td>
+</tr>
+<tr>
+<td>ACT_NAME</td>
+<td>流程活动的名称（bpmn的xml文件中活动的name）</td>
+<td></td>
+</tr>
+<tr>
+<td>ACT_TYPE</td>
+<td>活动类型</td>
+<td></td>
+</tr>
+<tr>
+<td>ASSIGNEE</td>
+<td>活动指派人</td>
+<td></td>
+</tr>
+<tr>
+<td>START_TINE</td>
+<td>开始时间</td>
+<td></td>
+</tr>
+<tr>
+<td>END_TIME</td>
+<td>结束事件</td>
+<td></td>
+</tr>
+<tr>
+<td>DURATION</td>
+<td>活动持续时间</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/19/oracle虚拟机规范翻译-java虚拟机结构/" rel="next" title="oracle虚拟机规范翻译--java虚拟机结构">
+                <i class="fa fa-chevron-left"></i> oracle虚拟机规范翻译--java虚拟机结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">John Doe</p>
+              <div class="site-description motion-element" itemprop="description"></div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库设计"><span class="nav-number">1.</span> <span class="nav-text">数据库设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#通用数据表（以ACT-GE-开头）"><span class="nav-number">1.1.</span> <span class="nav-text">通用数据表（以ACT_GE_开头）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#资源表（ACT-GE-BYTEARRAY）"><span class="nav-number">1.1.1.</span> <span class="nav-text">资源表（ACT_GE_BYTEARRAY）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性表（ACT-GE-PROPERTY）"><span class="nav-number">1.1.2.</span> <span class="nav-text">属性表（ACT_GE_PROPERTY）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流程存储表（以ACT-RE-开头）"><span class="nav-number">1.2.</span> <span class="nav-text">流程存储表（以ACT_RE_开头）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#部署数据表（ACT-RE-DEPLOYMENT）"><span class="nav-number">1.2.1.</span> <span class="nav-text">部署数据表（ACT_RE_DEPLOYMENT）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流程定义表（ACT-RE-PROCDEF）"><span class="nav-number">1.2.2.</span> <span class="nav-text">流程定义表（ACT_RE_PROCDEF）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行时数据表（以ACT-RU开头）"><span class="nav-number">1.3.</span> <span class="nav-text">运行时数据表（以ACT_RU开头）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流程实例（执行流）表（ACT-RU-EXECUTION）"><span class="nav-number">1.3.1.</span> <span class="nav-text">流程实例（执行流）表（ACT_RU_EXECUTION）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流程任务表（ACT-RU-TASK）"><span class="nav-number">1.3.2.</span> <span class="nav-text">流程任务表（ACT_RU_TASK）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流程参数表（ACT-RU-VARIABLE）"><span class="nav-number">1.3.3.</span> <span class="nav-text">流程参数表（ACT_RU_VARIABLE）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#历史数据表（以ACT-HI开头）"><span class="nav-number">1.4.</span> <span class="nav-text">历史数据表（以ACT_HI开头）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#流程实例表-（ACT-HI-PROCINST）"><span class="nav-number">1.4.1.</span> <span class="nav-text">流程实例表 （ACT_HI_PROCINST）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流程明细表（ACT-HI-DETAIL）"><span class="nav-number">1.4.2.</span> <span class="nav-text">流程明细表（ACT_HI_DETAIL）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#历史任务表（ACT-HI-TASK）"><span class="nav-number">1.4.3.</span> <span class="nav-text">历史任务表（ACT_HI_TASK）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#历史行为表（ACT-HI-ACTINST）"><span class="nav-number">1.4.4.</span> <span class="nav-text">历史行为表（ACT_HI_ACTINST）</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.1</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.1"></script>
+
+  <script src="/js/motion.js?v=7.1.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.1"></script>
+<script src="/js/post-details.js?v=7.1.1"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.1"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
