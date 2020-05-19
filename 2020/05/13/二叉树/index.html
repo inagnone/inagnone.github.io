@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="数据结构,">
 
 
 
@@ -86,14 +86,21 @@
 
 
 
+<meta name="description" content="二叉树节点的度结点拥有的子树数目称为结点的度。  节点层次从根开始定义起，根为第一层，根的孩子为第二层，以此类推  数的深度树中结点的最大层次数称为树的深度或高度。所示树的深度为4。 性质1）在二叉树的第i层上最多有2i-1 个节点 。（i&amp;gt;=1） 2）二叉树中如果深度为k,那么最多有2k-1个节点。(k&amp;gt;=1） 3）n0=n2+1  n0表示度数为0的节点数，n2表示度数为2的节点数">
+<meta name="keywords" content="数据结构">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql技术内幕笔记">
-<meta property="og:url" content="http://inagnone.github.io/2020/04/01/mysql技术内幕笔记/index.html">
+<meta property="og:title" content="二叉树">
+<meta property="og:url" content="http://inagnone.github.io/2020/05/13/二叉树/index.html">
 <meta property="og:site_name" content="inagnone">
+<meta property="og:description" content="二叉树节点的度结点拥有的子树数目称为结点的度。  节点层次从根开始定义起，根为第一层，根的孩子为第二层，以此类推  数的深度树中结点的最大层次数称为树的深度或高度。所示树的深度为4。 性质1）在二叉树的第i层上最多有2i-1 个节点 。（i&amp;gt;=1） 2）二叉树中如果深度为k,那么最多有2k-1个节点。(k&amp;gt;=1） 3）n0=n2+1  n0表示度数为0的节点数，n2表示度数为2的节点数">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-04-01T14:47:55.269Z">
+<meta property="og:image" content="http://inagnone.github.io/2020/05/13/二叉树/inagnone.github.io/source/_posts/二叉树/7043118-cfa7c45bb8f1e332.png">
+<meta property="og:image" content="http://inagnone.github.io/2020/05/13/二叉树/inagnone.github.io/source/_posts/二叉树/7043118-7c9318a6f5c1349d.png">
+<meta property="og:updated_time" content="2020-05-19T19:23:56.687Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql技术内幕笔记">
+<meta name="twitter:title" content="二叉树">
+<meta name="twitter:description" content="二叉树节点的度结点拥有的子树数目称为结点的度。  节点层次从根开始定义起，根为第一层，根的孩子为第二层，以此类推  数的深度树中结点的最大层次数称为树的深度或高度。所示树的深度为4。 性质1）在二叉树的第i层上最多有2i-1 个节点 。（i&amp;gt;=1） 2）二叉树中如果深度为k,那么最多有2k-1个节点。(k&amp;gt;=1） 3）n0=n2+1  n0表示度数为0的节点数，n2表示度数为2的节点数">
+<meta name="twitter:image" content="http://inagnone.github.io/2020/05/13/二叉树/inagnone.github.io/source/_posts/二叉树/7043118-cfa7c45bb8f1e332.png">
 
 
 
@@ -123,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://inagnone.github.io/2020/04/01/mysql技术内幕笔记/">
+  <link rel="canonical" href="http://inagnone.github.io/2020/05/13/二叉树/">
 
 
 
 
 
-  <title>mysql技术内幕笔记 | inagnone</title>
+  <title>二叉树 | inagnone</title>
   
 
 
@@ -276,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://inagnone.github.io/2020/04/01/mysql技术内幕笔记/">
+    <link itemprop="mainEntityOfPage" href="http://inagnone.github.io/2020/05/13/二叉树/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="inagnone">
@@ -293,7 +300,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">mysql技术内幕笔记</h1>
+          <h1 class="post-title" itemprop="name headline">二叉树</h1>
         
 
         <div class="post-meta">
@@ -305,8 +312,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-01T22:47:55+08:00">
-                2020-04-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-13T00:33:44+08:00">
+                2020-05-13
               </time>
             
 
@@ -337,7 +344,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  0
+                  335
                 </span>
               
 
@@ -374,7 +381,16 @@
       
 
       
-        
+        <h1 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h1><h2 id="节点的度"><a href="#节点的度" class="headerlink" title="节点的度"></a>节点的度</h2><p>结点拥有的子树数目称为结点的<strong>度</strong>。</p>
+<p><img src="//inagnone.github.io/2020/05/13/二叉树/inagnone.github.io\source\_posts\二叉树\7043118-cfa7c45bb8f1e332.png" alt></p>
+<h2 id="节点层次"><a href="#节点层次" class="headerlink" title="节点层次"></a>节点层次</h2><p>从根开始定义起，根为第一层，根的孩子为第二层，以此类推</p>
+<p><img src="//inagnone.github.io/2020/05/13/二叉树/inagnone.github.io\source\_posts\二叉树\7043118-7c9318a6f5c1349d.png" alt="2.1"></p>
+<h2 id="数的深度"><a href="#数的深度" class="headerlink" title="数的深度"></a>数的深度</h2><p>树中结点的最大层次数称为树的深度或高度。所示树的深度为4。</p>
+<h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><p>1）在二叉树的第i层上最多有2i-1 个节点 。（i&gt;=1）<br> 2）二叉树中如果深度为k,那么最多有2k-1个节点。(k&gt;=1）<br> 3）n0=n2+1  n0表示度数为0的节点数，n2表示度数为2的节点数。<br> 4）在完全二叉树中，具有n个节点的完全二叉树的深度为[log2n]+1，其中[log2n]是向下取整。<br> 5）若对含 n 个结点的完全二叉树从上到下且从左至右进行 1 至 n 的编号，则对完全二叉树中任意一个编号为 i 的结点有如下特性：</p>
+<blockquote>
+<p>(1) 若 i=1，则该结点是二叉树的根，无双亲, 否则，编号为 [i/2] 的结点为其双亲结点;<br> (2) 若 2i&gt;n，则该结点无左孩子，  否则，编号为 2i 的结点为其左孩子结点；<br> (3) 若 2i+1&gt;n，则该结点无右孩子结点，  否则，编号为2i+1 的结点为其右孩子结点。</p>
+</blockquote>
+
       
     </div>
     
@@ -389,6 +405,12 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构/" rel="tag"><i class="fa fa-tag"></i> 数据结构</a>
+          
+        </div>
+      
 
       
       
@@ -398,8 +420,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/30/Hexo+Next主题个性化/" rel="next" title="Hexo+Next主题样式自定义">
-                <i class="fa fa-chevron-left"></i> Hexo+Next主题样式自定义
+              <a href="/2020/04/16/数据仓库集成方案/" rel="next" title="数据仓库集成方案">
+                <i class="fa fa-chevron-left"></i> 数据仓库集成方案
               </a>
             
           </div>
@@ -408,8 +430,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2020/04/03/数据库系统原理/" rel="prev" title="数据库系统原理">
-                数据库系统原理 <i class="fa fa-chevron-right"></i>
+              <a href="/2020/05/18/HashMap源码解析/" rel="prev" title="HashMap源码解析">
+                HashMap源码解析 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -462,8 +484,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -525,6 +556,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#二叉树"><span class="nav-number">1.</span> <span class="nav-text">二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#节点的度"><span class="nav-number">1.1.</span> <span class="nav-text">节点的度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#节点层次"><span class="nav-number">1.2.</span> <span class="nav-text">节点层次</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数的深度"><span class="nav-number">1.3.</span> <span class="nav-text">数的深度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性质"><span class="nav-number">1.4.</span> <span class="nav-text">性质</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
