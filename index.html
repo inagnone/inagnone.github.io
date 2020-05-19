@@ -276,6 +276,183 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://inagnone.github.io/2020/05/18/HashMap源码解析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="inagnone">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar2.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="inagnone">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/18/HashMap源码解析/" itemprop="url">HashMap源码解析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-18T23:45:42+08:00">
+                2020-05-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  4
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="//inagnone.github.io/2020/05/18/HashMap源码解析/inagnone.github.io\source\_posts\HashMap源码解析\1200" alt="img"></p>
+<h1 id="常量介绍"><a href="#常量介绍" class="headerlink" title="常量介绍"></a>常量介绍</h1><p><code>default_initial_capacity</code>:默认初始容量，1&lt;&lt;4,即16。</p>
+<blockquote>
+<p>根据上图可以看出，hashMap由最上层是一个数组，数组中每一个元素是一个链表或者一棵红黑树。链表的每一个节点或者红黑树的节点才是我们put进去的元素，即hashmap的容量=所有被占用的数组位下的链表的和</p>
+</blockquote>
+<p><code>default_load_factory</code>:默认加载因子。当哈希表条目数量超过加载因子与容量的乘积，哈希表容量扩大为原来的2倍，且内部条目被重新映射。加载因子过大会导致链表过长，查询时间成本增加；过小会导致频繁扩容。默认是0.75</p>
+<p><code>threshold</code>：扩容阀值。值是加载因子与容量的乘积。</p>
+<p><code>TREEIFY_THRESHOLD</code>:树化阀值。数组元素最初是构建成链表的结构，当一个链表的长度超过了<code>TREEIFY_THRESHOLD</code>后，hashmap会将这个链表转化为一个红黑树，默认是8</p>
+<p><code>UNTREEIFY_THRESHOLD</code>:非树化结构，在hashmap一个已经转化的红黑树上，如果因为remove等操作导致树的节点数量小于<code>UNTREEIFY_THRESHOLD</code>，那么这个红黑树将会被退化为链表。默认是6.</p>
+<p><code>MIN_TREEIFY_CAPACITY</code>：hashmap树化的最小容量。hashmap将链表转化为红黑树，还需要满足容量大于<code>MIN_TREEIFY_CAPACITY</code>。默认是64。</p>
+<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="interface-Entry-lt-K-V-gt"><a href="#interface-Entry-lt-K-V-gt" class="headerlink" title="interface Entry&lt;K,V&gt;"></a>interface Entry&lt;K,V&gt;</h2><p>数组元素Node都是此接口的实现类，从上图可以看出，hashMap实际上是个Node的数组，数组的每一个元素要么是个链表，要么是个树，因此node也可以理解为进入数组元素中的链表或者树的入口</p>
+<h2 id="Node-lt-K-V-gt-table"><a href="#Node-lt-K-V-gt-table" class="headerlink" title="Node&lt;K,V&gt;[] table"></a>Node&lt;K,V&gt;[] table</h2><p>hashmap主要是通过维护这样一个Node的数组来实现map接口的各个方法。</p>
+<h2 id="Node-lt-K-V-gt-implements-Map-Entry-lt-K，V-gt"><a href="#Node-lt-K-V-gt-implements-Map-Entry-lt-K，V-gt" class="headerlink" title="Node&lt;K,V&gt; implements Map.Entry&lt;K，V&gt;"></a>Node&lt;K,V&gt; implements Map.Entry&lt;K，V&gt;</h2><p>hashmap最初构造的数组元素结构</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">    <span class="keyword">final</span> K key;</span><br><span class="line">    V value;</span><br><span class="line">    Node&lt;K,V&gt; next;</span><br><span class="line">    ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="TreeNode-lt-K-V-gt-extends-LinkedHashMap-Entry-lt-K-V-gt"><a href="#TreeNode-lt-K-V-gt-extends-LinkedHashMap-Entry-lt-K-V-gt" class="headerlink" title="TreeNode&lt;K,V&gt; extends LinkedHashMap.Entry&lt;K,V&gt;"></a>TreeNode&lt;K,V&gt; extends LinkedHashMap.Entry&lt;K,V&gt;</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">TreeNode</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">extends</span> <span class="title">LinkedHashMap</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    TreeNode&lt;K,V&gt; parent;  <span class="comment">// red-black tree links</span></span><br><span class="line">    TreeNode&lt;K,V&gt; left;</span><br><span class="line">    TreeNode&lt;K,V&gt; right;</span><br><span class="line">    TreeNode&lt;K,V&gt; prev;    <span class="comment">// needed to unlink next upon deletion</span></span><br><span class="line">    <span class="keyword">boolean</span> red;</span><br><span class="line">    ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">HashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 指定期望初始容量小于0将会抛出非法参数异常</span></span><br><span class="line">   <span class="keyword">if</span> (initialCapacity &lt; <span class="number">0</span>)</span><br><span class="line">       <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal initial capacity: "</span> +</span><br><span class="line">                                          initialCapacity);</span><br><span class="line">   <span class="comment">// 期望初始容量不可以大于最大值 2^30  实际上我们也不会用到这么大的容量                                      </span></span><br><span class="line">   <span class="keyword">if</span> (initialCapacity &gt; MAXIMUM_CAPACITY)</span><br><span class="line">       initialCapacity = MAXIMUM_CAPACITY;</span><br><span class="line">  <span class="comment">// 加载因子必须大于0 不能为无穷大   </span></span><br><span class="line">   <span class="keyword">if</span> (loadFactor &lt;= <span class="number">0</span> || Float.isNaN(loadFactor))</span><br><span class="line">       <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal load factor: "</span> +</span><br><span class="line">                                          loadFactor);</span><br><span class="line">   <span class="keyword">this</span>.loadFactor = loadFactor;<span class="comment">//初始化全局加载因子变量</span></span><br><span class="line">   <span class="keyword">this</span>.threshold = tableSizeFor(initialCapacity);<span class="comment">//根据初始容量计算计算扩容阈值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>tableSizeFor方法的作用是将用户输入的初始大小变为2次幂</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">tableSizeFor</span><span class="params">(<span class="keyword">int</span> cap)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> n = cap - <span class="number">1</span>;</span><br><span class="line">    n |= n &gt;&gt;&gt; <span class="number">1</span>;</span><br><span class="line">    n |= n &gt;&gt;&gt; <span class="number">2</span>;</span><br><span class="line">    n |= n &gt;&gt;&gt; <span class="number">4</span>;</span><br><span class="line">    n |= n &gt;&gt;&gt; <span class="number">8</span>;</span><br><span class="line">    n |= n &gt;&gt;&gt; <span class="number">16</span>;</span><br><span class="line">    <span class="keyword">return</span> (n &lt; <span class="number">0</span>) ? <span class="number">1</span> : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>要将cap变为2次幂，从二进制来看，只需把最高位的1底下的所有位都变为1，然后再加1，即可得到大于cap且与cap最接近的2次幂。</p>
+<p>例如当cap=18时，二进制是10010。那么我们的目标是得到100000，即32。</p>
+<p>因为cap&gt;0,即cap的二进制必定存在一位是1，我们只需要找到最左边的1。</p>
+<p>右移1位，10010|01001 = 11011</p>
+<p>此时原最高位的1及其右边一位也变为了1</p>
+<p>右移2位，11011|00110=11111</p>
+<p>此时原最高位1及其右边三位都变为1，如此即可将原来出现的最高位1右边的数字都变为1.</p>
+<p>最后再加上1=100000,即为2次幂.</p>
+<p>最初的cap-1，避免了当cap原来就是2次幂，导致最后根据上面的方法算出2*cap。即当cap是2次幂时，把最高位1右移一位。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://inagnone.github.io/2020/04/16/数据仓库集成方案/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -537,7 +714,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  0
+                  223
                 </span>
               
 
@@ -576,7 +753,14 @@
       
         
           
-            
+            <blockquote>
+<p>给定两个大小为 m 和 n 的有序数组 nums1 和 nums2。</p>
+<p>请你找出这两个有序数组的中位数，并且要求算法的时间复杂度为 O(log(m + n))。</p>
+</blockquote>
+<h1 id="暴力解法"><a href="#暴力解法" class="headerlink" title="暴力解法"></a>暴力解法</h1><p>将两个数组合并，找到中位数</p>
+<h1 id="改进1"><a href="#改进1" class="headerlink" title="改进1"></a>改进1</h1><p>数组确定，中位数的位置可以确定。数组长度是n，当数组是奇数，中位数=array[n/2]。当长度是偶数，中位数=array[n/2+1]。所以无需真正把两个数组合并。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">findMedianSortedArrays</span><span class="params">(<span class="keyword">int</span>[] nums1, <span class="keyword">int</span>[] nums2)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> sum = nums1.length+nums2.length;</span><br><span class="line">        <span class="keyword">int</span> index1= <span class="number">0</span>,index2 = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> v1=<span class="number">0</span>,v2= <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(index &lt;= sum/<span class="number">2</span>)&#123;</span><br><span class="line">            v1 = v2;</span><br><span class="line">            <span class="keyword">if</span>(index1 &lt; nums1.length)&#123;</span><br><span class="line">                <span class="keyword">if</span>( index2 &gt;= nums2.length || nums1[index1] &lt; nums2[index2])&#123;</span><br><span class="line">                    v2 = nums1[index1];</span><br><span class="line">                    index1++;</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    v2 = nums2[index2];</span><br><span class="line">                    index2++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                v2 = nums2[index2];</span><br><span class="line">                index2++;</span><br><span class="line">            &#125;      </span><br><span class="line">            index++;      </span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(sum%<span class="number">2</span> == <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> v2;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> (v1+v2)/(<span class="number">2</span>+<span class="number">0.0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
           
         
       
@@ -1840,183 +2024,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://inagnone.github.io/2019/05/02/分布式框架/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="inagnone">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar2.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="inagnone">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/02/分布式框架/" itemprop="url">分布式框架</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-02T16:49:22+08:00">
-                2019-05-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/架构/" itemprop="url" rel="index">
-                    <span itemprop="name">架构</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  284
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>分布式框架</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/02/分布式框架/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2069,7 +2076,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2142,7 +2149,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">8.6k</span>
+    <span title="Site words total count">9.8k</span>
   
 </div>
 <!--
