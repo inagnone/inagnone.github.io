@@ -8,7 +8,7 @@ tags: Collection
 
 <!-- more -->
 
-![img](E:\inagnone.github.io\source\_posts\HashMap源码解析\1200.png)
+![img](https://gitee.com/inag0000/image-bed/raw/master/blog-image/1200.png)
 
 # 常量介绍
 
