@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="容器,">
 
 
 
@@ -86,14 +86,18 @@
 
 
 
+<meta name="description" content="底层原理Docker是怎么工作的Docker是一个C-S结果系统，Docker的守护进程运行在主机上，通过Socker从客户端访问 DockerServer接收到DockerClient的指令，就会执行命令 Docker 为什么比VM快 Docker有着比虚拟机更少的抽象层 Docker利用的是宿主机的内核，VM需要Guest OS。所以新建一个容器的时候，docker不需要像虚拟机一样重新加载一">
+<meta name="keywords" content="容器">
 <meta property="og:type" content="article">
 <meta property="og:title" content="docker">
 <meta property="og:url" content="http://inagnone.github.io/2020/11/19/docker/index.html">
 <meta property="og:site_name" content="inagnone">
+<meta property="og:description" content="底层原理Docker是怎么工作的Docker是一个C-S结果系统，Docker的守护进程运行在主机上，通过Socker从客户端访问 DockerServer接收到DockerClient的指令，就会执行命令 Docker 为什么比VM快 Docker有着比虚拟机更少的抽象层 Docker利用的是宿主机的内核，VM需要Guest OS。所以新建一个容器的时候，docker不需要像虚拟机一样重新加载一">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-23T16:31:11.779Z">
+<meta property="og:updated_time" content="2020-12-23T16:50:57.967Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker">
+<meta name="twitter:description" content="底层原理Docker是怎么工作的Docker是一个C-S结果系统，Docker的守护进程运行在主机上，通过Socker从客户端访问 DockerServer接收到DockerClient的指令，就会执行命令 Docker 为什么比VM快 Docker有着比虚拟机更少的抽象层 Docker利用的是宿主机的内核，VM需要Guest OS。所以新建一个容器的时候，docker不需要像虚拟机一样重新加载一">
 
 
 
@@ -337,7 +341,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  0
+                  1.5k
                 </span>
               
 
@@ -353,7 +357,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  7
                 </span>
               
             </div>
@@ -374,7 +378,104 @@
       
 
       
-        
+        <h1 id="底层原理"><a href="#底层原理" class="headerlink" title="底层原理"></a>底层原理</h1><h2 id="Docker是怎么工作的"><a href="#Docker是怎么工作的" class="headerlink" title="Docker是怎么工作的"></a>Docker是怎么工作的</h2><p>Docker是一个C-S结果系统，Docker的守护进程运行在主机上，通过Socker从客户端访问</p>
+<p>DockerServer接收到DockerClient的指令，就会执行命令</p>
+<h2 id="Docker-为什么比VM快"><a href="#Docker-为什么比VM快" class="headerlink" title="Docker 为什么比VM快"></a>Docker 为什么比VM快</h2><ol>
+<li>Docker有着比虚拟机更少的抽象层</li>
+<li>Docker利用的是宿主机的内核，VM需要Guest OS。所以新建一个容器的时候，docker不需要像虚拟机一样重新加载一个操作系统内核，避免引导。虚拟机是加载guestOS，分钟级别，而docker是利用宿主机的操作系统，省略了这个复杂的过程。</li>
+</ol>
+<h1 id="Docker的常用命令"><a href="#Docker的常用命令" class="headerlink" title="Docker的常用命令"></a>Docker的常用命令</h1><h2 id="帮助命令"><a href="#帮助命令" class="headerlink" title="帮助命令"></a>帮助命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">显示docker版本信息</span></span><br><span class="line">docker version</span><br><span class="line"><span class="meta">#</span><span class="bash">显示docker的系统信息，包括镜像和容器的数量</span></span><br><span class="line">docker info</span><br><span class="line"><span class="meta">#</span><span class="bash">帮助命令</span></span><br><span class="line">docker 命令 --help</span><br></pre></td></tr></table></figure>
+<p>官方文档地址：<a href="https://docs.docker.com/reference/" target="_blank" rel="noopener">https://docs.docker.com/reference/</a></p>
+<h2 id="镜像命令"><a href="#镜像命令" class="headerlink" title="镜像命令"></a>镜像命令</h2><h3 id="docker-images"><a href="#docker-images" class="headerlink" title="docker images"></a>docker images</h3><blockquote>
+<p>查看所有本地的主机上的镜像</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">~  bin sudo docker images         </span><br><span class="line">REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE</span><br><span class="line">zookeeper           latest              82f175cb301d        3 weeks ago         253MB</span><br><span class="line">consul              latest              4f7b214361a7        6 weeks ago         122MB</span><br><span class="line">mysql               latest              8e85dd5c3255        7 weeks ago         544MB</span><br><span class="line">hello-world         latest              bf756fb1ae65        11 months ago       13.3kB</span><br></pre></td></tr></table></figure>
+<p>REPOSITORY:        镜像的仓库源</p>
+<p>TAG:                        版本标签信息</p>
+<p>IMAGE ID:                镜像的id</p>
+<h3 id="docker-search"><a href="#docker-search" class="headerlink" title="docker search"></a>docker search</h3><blockquote>
+<p>搜索镜像</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">➜  bin sudo docker search mysql</span><br><span class="line">[sudo] 10235627@zte.intra 的密码：</span><br><span class="line">NAME                              DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED</span><br><span class="line">mysql                             MySQL is a widely used, open-source relation…   10202               [OK]                </span><br><span class="line">mariadb                           MariaDB is a community-developed fork of MyS…   3753                [OK]                </span><br><span class="line">mysql/mysql-server                Optimized MySQL Server Docker images. Create…   746                                     [OK]</span><br><span class="line">percona                           Percona Server is a fork of the MySQL relati…   511                 [OK]                </span><br><span class="line">centos/mysql-57-centos7           MySQL 5.7 SQL database server                   86                                      </span><br><span class="line">mysql/mysql-cluster               Experimental MySQL Cluster Docker images. Cr…   78                                      </span><br><span class="line">centurylink/mysql                 Image containing mysql. Optimized to be link…   60                                      [OK]</span><br></pre></td></tr></table></figure>
+<h3 id="docker-pull-镜像名-tag"><a href="#docker-pull-镜像名-tag" class="headerlink" title="docker pull 镜像名[:tag]"></a>docker pull 镜像名[:tag]</h3><blockquote>
+<p>下载镜像</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">➜  bin sudo docker pull  mysql</span><br><span class="line">Using default tag: latest</span><br><span class="line">latest: Pulling from library/mysql</span><br><span class="line">852e50cd189d: Pull complete </span><br><span class="line">29969ddb0ffb: Pull complete </span><br><span class="line">a43f41a44c48: Pull complete </span><br><span class="line">5cdd802543a3: Pull complete </span><br><span class="line">b79b040de953: Pull complete </span><br><span class="line">938c64119969: Pull complete </span><br><span class="line">7689ec51a0d9: Pull complete </span><br><span class="line">a880ba7c411f: Pull complete </span><br><span class="line">984f656ec6ca: Pull complete </span><br><span class="line">9f497bce458a: Pull complete </span><br><span class="line">b9940f97694b: Pull complete </span><br><span class="line">2f069358dc96: Pull complete </span><br><span class="line">Digest: sha256:4bb2e81a40e9d0d59bd8e3dc2ba5e1f2197696f6de39a91e90798dd27299b093		#签名</span><br><span class="line">Status: Downloaded newer image for mysql:latest		</span><br><span class="line">docker.io/library/mysql:latest				#真实地址</span><br></pre></td></tr></table></figure>
+<h3 id="docker-rmi-镜像id"><a href="#docker-rmi-镜像id" class="headerlink" title="docker rmi 镜像id"></a>docker rmi 镜像id</h3><blockquote>
+<p>删除镜像</p>
+</blockquote>
+<h2 id="容器命令"><a href="#容器命令" class="headerlink" title="容器命令"></a>容器命令</h2><p><strong>有了镜像才可以创建容器</strong></p>
+<h3 id="docker-run"><a href="#docker-run" class="headerlink" title="docker run"></a>docker run</h3><blockquote>
+<p>新建容器并启动</p>
+<p>参数</p>
+<p>–name=”Name”    容器名称，用来区分容器</p>
+<p>-d                            后台方式运行</p>
+<p>-it                            使用交互方式运行</p>
+<p>-P                            指定容器端口</p>
+<p>​                                -p    ip:主机端口:容器端口</p>
+<p>​                                -p    主机端口:容器端口</p>
+<p>​                                -p    容器端口</p>
+<p>-p                            随机指定端口</p>
+</blockquote>
+<p><strong>启动并进入centos容器</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ sudo docker run -it centos</span><br><span class="line">[root@deb2fe9ceb60 bin]#</span><br></pre></td></tr></table></figure>
+<h3 id="docker-ps"><a href="#docker-ps" class="headerlink" title="docker ps"></a>docker ps</h3><blockquote>
+<p>查看所有运行的容器</p>
+<p>参数</p>
+<p>-a        列出所有容器，默认之列出正在运行的容器</p>
+<p>-n=?    显示最近创建的容器，？是数量，最近几个，docker ps -n=1</p>
+<p>-q        只显示容器的编号</p>
+</blockquote>
+<h3 id="退出容器"><a href="#退出容器" class="headerlink" title="退出容器"></a>退出容器</h3><p>在容器内部</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exit			#直接容器停止并退出</span><br><span class="line">Ctrl + P +Q		#容器不停止退出</span><br></pre></td></tr></table></figure>
+<h3 id="docker-rm-容器id"><a href="#docker-rm-容器id" class="headerlink" title="docker rm 容器id"></a>docker rm 容器id</h3><blockquote>
+<p>删除容器</p>
+<p>默认不能删除正在运行的容器</p>
+<p>参数</p>
+<p>-f        强制删除容器，包括正在运行的容器</p>
+</blockquote>
+<h3 id="docker-start-容器id"><a href="#docker-start-容器id" class="headerlink" title="docker start 容器id"></a>docker start 容器id</h3><blockquote>
+<p>启动容器</p>
+</blockquote>
+<h3 id="docker-restart-容器id"><a href="#docker-restart-容器id" class="headerlink" title="docker restart 容器id"></a>docker restart 容器id</h3><blockquote>
+<p>重启容器</p>
+</blockquote>
+<h3 id="docker-stop-容器id"><a href="#docker-stop-容器id" class="headerlink" title="docker stop 容器id"></a>docker stop 容器id</h3><blockquote>
+<p>停止容器</p>
+</blockquote>
+<p>docker kill 容器id</p>
+<blockquote>
+<p>强制停止容器</p>
+</blockquote>
+<h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><h3 id="后台启动容器"><a href="#后台启动容器" class="headerlink" title="后台启动容器"></a>后台启动容器</h3><blockquote>
+<p>docker容器使用后台运行，就必须要有一个前台进程，docker 发现没有应用，就会自动停止</p>
+<p>如</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> ➜  ~ sudo docker run -d centos		<span class="comment">#后台启动centos</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> ➜  ~ sudo docker ps           </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p>docker ps 发现centos没有在运行</p>
+</blockquote>
+<h3 id="docker-logs-容器id"><a href="#docker-logs-容器id" class="headerlink" title="docker logs 容器id"></a>docker logs 容器id</h3><blockquote>
+<p>查看容器日志</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ sudo docker logs -f -t --tail 10    4880af3be573</span><br></pre></td></tr></table></figure>
+<h3 id="docker-top-容器id"><a href="#docker-top-容器id" class="headerlink" title="docker top 容器id"></a>docker top 容器id</h3><blockquote>
+<p>查看容器中进程信息</p>
+</blockquote>
+<h3 id="docker-inspect-容器id"><a href="#docker-inspect-容器id" class="headerlink" title="docker inspect 容器id"></a>docker inspect 容器id</h3><blockquote>
+<p>查看容器元信息</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br></pre></td><td class="code"><pre><span class="line">➜  ~ sudo docker inspect  4880af3be573</span><br><span class="line">[sudo] 10235627@zte.intra 的密码：</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        "Id": "4880af3be573990cecf8c8a175e5c64d4fbd3075fed8c13c93104a257a56141e",</span><br><span class="line">        "Created": "2020-12-05T10:22:45.444798168Z",</span><br><span class="line">        "Path": "/bin/bash",</span><br><span class="line">        "Args": [],</span><br><span class="line">        "State": &#123;</span><br><span class="line">            "Status": "running",</span><br><span class="line">            "Running": true,</span><br><span class="line">            "Paused": false,</span><br><span class="line">            "Restarting": false,</span><br><span class="line">            "OOMKilled": false,</span><br><span class="line">            "Dead": false,</span><br><span class="line">            "Pid": 49912,</span><br><span class="line">            "ExitCode": 0,</span><br><span class="line">            "Error": "",</span><br><span class="line">            "StartedAt": "2020-12-05T10:22:46.164488798Z",</span><br><span class="line">            "FinishedAt": "0001-01-01T00:00:00Z"</span><br><span class="line">        &#125;,</span><br><span class="line">        "Image": "sha256:0d120b6ccaa8c5e149176798b3501d4dd1885f961922497cd0abef155c869566",</span><br><span class="line">        "ResolvConfPath": "/var/lib/docker/containers/4880af3be573990cecf8c8a175e5c64d4fbd3075fed8c13c93104a257a56141e/resolv.conf",</span><br><span class="line">        "HostnamePath": "/var/lib/docker/containers/4880af3be573990cecf8c8a175e5c64d4fbd3075fed8c13c93104a257a56141e/hostname",</span><br><span class="line">        "HostsPath": "/var/lib/docker/containers/4880af3be573990cecf8c8a175e5c64d4fbd3075fed8c13c93104a257a56141e/hosts",</span><br><span class="line">        "LogPath": "/var/lib/docker/containers/4880af3be573990cecf8c8a175e5c64d4fbd3075fed8c13c93104a257a56141e/4880af3be573990cecf8c8a175e5c64d4fbd3075fed8c13c93104a257a56141e-json.log",</span><br><span class="line">        "Name": "/optimistic_faraday",</span><br><span class="line">        "RestartCount": 0,</span><br><span class="line">        "Driver": "overlay2",</span><br><span class="line">        "Platform": "linux",</span><br><span class="line">        "MountLabel": "",</span><br><span class="line">        "ProcessLabel": "",</span><br><span class="line">        "AppArmorProfile": "",</span><br><span class="line">        "ExecIDs": null,</span><br><span class="line">        "HostConfig": &#123;</span><br><span class="line">            "Binds": null,</span><br><span class="line">            "ContainerIDFile": "",</span><br><span class="line">            "LogConfig": &#123;</span><br><span class="line">                "Type": "json-file",</span><br><span class="line">                "Config": &#123;&#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            "NetworkMode": "default",</span><br><span class="line">            "PortBindings": &#123;&#125;,</span><br><span class="line">            "RestartPolicy": &#123;</span><br><span class="line">                "Name": "no",</span><br><span class="line">                "MaximumRetryCount": 0</span><br><span class="line">            &#125;,</span><br><span class="line">            "AutoRemove": false,</span><br><span class="line">            "VolumeDriver": "",</span><br><span class="line">            "VolumesFrom": null,</span><br><span class="line">            "CapAdd": null,</span><br><span class="line">            "CapDrop": null,</span><br><span class="line">            "Capabilities": null,</span><br><span class="line">            "Dns": [],</span><br><span class="line">            "DnsOptions": [],</span><br><span class="line">            "DnsSearch": [],</span><br><span class="line">            "ExtraHosts": null,</span><br><span class="line">            "GroupAdd": null,</span><br><span class="line">            "IpcMode": "private",</span><br><span class="line">            "Cgroup": "",</span><br><span class="line">            "Links": null,</span><br><span class="line">            "OomScoreAdj": 0,</span><br><span class="line">            "PidMode": "",</span><br><span class="line">            "Privileged": false,</span><br><span class="line">            "PublishAllPorts": false,</span><br><span class="line">            "ReadonlyRootfs": false,</span><br><span class="line">            "SecurityOpt": null,</span><br><span class="line">            "UTSMode": "",</span><br><span class="line">            "UsernsMode": "",</span><br><span class="line">            "ShmSize": 67108864,</span><br><span class="line">            "Runtime": "runc",</span><br><span class="line">            "ConsoleSize": [</span><br><span class="line">                0,</span><br><span class="line">                0</span><br><span class="line">            ],</span><br><span class="line">            "Isolation": "",</span><br><span class="line">            "CpuShares": 0,</span><br><span class="line">            "Memory": 0,</span><br><span class="line">            "NanoCpus": 0,</span><br><span class="line">            "CgroupParent": "",</span><br><span class="line">            "BlkioWeight": 0,</span><br><span class="line">            "BlkioWeightDevice": [],</span><br><span class="line">            "BlkioDeviceReadBps": null,</span><br><span class="line">            "BlkioDeviceWriteBps": null,</span><br><span class="line">            "BlkioDeviceReadIOps": null,</span><br><span class="line">            "BlkioDeviceWriteIOps": null,</span><br><span class="line">            "CpuPeriod": 0,</span><br><span class="line">            "CpuQuota": 0,</span><br><span class="line">            "CpuRealtimePeriod": 0,</span><br><span class="line">            "CpuRealtimeRuntime": 0,</span><br><span class="line">            "CpusetCpus": "",</span><br><span class="line">            "CpusetMems": "",</span><br><span class="line">            "Devices": [],</span><br><span class="line">            "DeviceCgroupRules": null,</span><br><span class="line">            "DeviceRequests": null,</span><br><span class="line">            "KernelMemory": 0,</span><br><span class="line">            "KernelMemoryTCP": 0,</span><br><span class="line">            "MemoryReservation": 0,</span><br><span class="line">            "MemorySwap": 0,</span><br><span class="line">            "MemorySwappiness": null,</span><br><span class="line">            "OomKillDisable": false,</span><br><span class="line">            "PidsLimit": null,</span><br><span class="line">            "Ulimits": null,</span><br><span class="line">            "CpuCount": 0,</span><br><span class="line">            "CpuPercent": 0,</span><br><span class="line">            "IOMaximumIOps": 0,</span><br><span class="line">            "IOMaximumBandwidth": 0,</span><br><span class="line">            "MaskedPaths": [</span><br><span class="line">                "/proc/asound",</span><br><span class="line">                "/proc/acpi",</span><br><span class="line">                "/proc/kcore",</span><br><span class="line">                "/proc/keys",</span><br><span class="line">                "/proc/latency_stats",</span><br><span class="line">                "/proc/timer_list",</span><br><span class="line">                "/proc/timer_stats",</span><br><span class="line">                "/proc/sched_debug",</span><br><span class="line">                "/proc/scsi",</span><br><span class="line">                "/sys/firmware"</span><br><span class="line">            ],</span><br><span class="line">            "ReadonlyPaths": [</span><br><span class="line">                "/proc/bus",</span><br><span class="line">                "/proc/fs",</span><br><span class="line">                "/proc/irq",</span><br><span class="line">                "/proc/sys",</span><br><span class="line">                "/proc/sysrq-trigger"</span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        "GraphDriver": &#123;</span><br><span class="line">            "Data": &#123;</span><br><span class="line">                "LowerDir": "/var/lib/docker/overlay2/023663c25dbe9167f996b4c54afcaedad6a451078c13ecb091628f7d38d860b7-init/diff:/var/lib/docker/overlay2/d06cc3b85c1dfc52610916e3b457c294d2765c9da2b5053ac0159bbff9c1a40c/diff",</span><br><span class="line">                "MergedDir": "/var/lib/docker/overlay2/023663c25dbe9167f996b4c54afcaedad6a451078c13ecb091628f7d38d860b7/merged",</span><br><span class="line">                "UpperDir": "/var/lib/docker/overlay2/023663c25dbe9167f996b4c54afcaedad6a451078c13ecb091628f7d38d860b7/diff",</span><br><span class="line">                "WorkDir": "/var/lib/docker/overlay2/023663c25dbe9167f996b4c54afcaedad6a451078c13ecb091628f7d38d860b7/work"</span><br><span class="line">            &#125;,</span><br><span class="line">            "Name": "overlay2"</span><br><span class="line">        &#125;,</span><br><span class="line">        "Mounts": [],</span><br><span class="line">        "Config": &#123;</span><br><span class="line">            "Hostname": "4880af3be573",</span><br><span class="line">            "Domainname": "",</span><br><span class="line">            "User": "",</span><br><span class="line">            "AttachStdin": true,</span><br><span class="line">            "AttachStdout": true,</span><br><span class="line">            "AttachStderr": true,</span><br><span class="line">            "Tty": true,</span><br><span class="line">            "OpenStdin": true,</span><br><span class="line">            "StdinOnce": true,</span><br><span class="line">            "Env": [</span><br><span class="line">                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"</span><br><span class="line">            ],</span><br><span class="line">            "Cmd": [</span><br><span class="line">                "/bin/bash"</span><br><span class="line">            ],</span><br><span class="line">            "Image": "centos",</span><br><span class="line">            "Volumes": null,</span><br><span class="line">            "WorkingDir": "",</span><br><span class="line">            "Entrypoint": null,</span><br><span class="line">            "OnBuild": null,</span><br><span class="line">            "Labels": &#123;</span><br><span class="line">                "org.label-schema.build-date": "20200809",</span><br><span class="line">                "org.label-schema.license": "GPLv2",</span><br><span class="line">                "org.label-schema.name": "CentOS Base Image",</span><br><span class="line">                "org.label-schema.schema-version": "1.0",</span><br><span class="line">                "org.label-schema.vendor": "CentOS"</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        "NetworkSettings": &#123;</span><br><span class="line">            "Bridge": "",</span><br><span class="line">            "SandboxID": "57cdd39b8ab7dbb1a6be778b5cef0e9899831fd6f902b1bdddca89643e355ece",</span><br><span class="line">            "HairpinMode": false,</span><br><span class="line">            "LinkLocalIPv6Address": "",</span><br><span class="line">            "LinkLocalIPv6PrefixLen": 0,</span><br><span class="line">            "Ports": &#123;&#125;,</span><br><span class="line">            "SandboxKey": "/var/run/docker/netns/57cdd39b8ab7",</span><br><span class="line">            "SecondaryIPAddresses": null,</span><br><span class="line">            "SecondaryIPv6Addresses": null,</span><br><span class="line">            "EndpointID": "42d54d3fef743b69b42e1507204d26cc966d9c10e4681d7d700a050741b04edf",</span><br><span class="line">            "Gateway": "172.17.0.1",</span><br><span class="line">            "GlobalIPv6Address": "",</span><br><span class="line">            "GlobalIPv6PrefixLen": 0,</span><br><span class="line">            "IPAddress": "172.17.0.2",</span><br><span class="line">            "IPPrefixLen": 16,</span><br><span class="line">            "IPv6Gateway": "",</span><br><span class="line">            "MacAddress": "02:42:ac:11:00:02",</span><br><span class="line">            "Networks": &#123;</span><br><span class="line">                "bridge": &#123;</span><br><span class="line">                    "IPAMConfig": null,</span><br><span class="line">                    "Links": null,</span><br><span class="line">                    "Aliases": null,</span><br><span class="line">                    "NetworkID": "85edb419d046ebf7b839e1e8ea14515d18ef01ee43888dc572d47ab43e32078c",</span><br><span class="line">                    "EndpointID": "42d54d3fef743b69b42e1507204d26cc966d9c10e4681d7d700a050741b04edf",</span><br><span class="line">                    "Gateway": "172.17.0.1",</span><br><span class="line">                    "IPAddress": "172.17.0.2",</span><br><span class="line">                    "IPPrefixLen": 16,</span><br><span class="line">                    "IPv6Gateway": "",</span><br><span class="line">                    "GlobalIPv6Address": "",</span><br><span class="line">                    "GlobalIPv6PrefixLen": 0,</span><br><span class="line">                    "MacAddress": "02:42:ac:11:00:02",</span><br><span class="line">                    "DriverOpts": null</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h3 id="docker-exec-it-容器id"><a href="#docker-exec-it-容器id" class="headerlink" title="docker exec -it 容器id"></a>docker exec -it 容器id</h3><blockquote>
+<p>进入容器，进入容器后开启一个新的终端，可以在里面操作</p>
+</blockquote>
+<h3 id="docker-attach-容器id"><a href="#docker-attach-容器id" class="headerlink" title="docker attach 容器id"></a>docker attach 容器id</h3><blockquote>
+<p>进入容器，进入容器正在执行的终端，不会启动新的进程</p>
+</blockquote>
+<h3 id="docker-cp-容器id-容器内路径-目的主机路径"><a href="#docker-cp-容器id-容器内路径-目的主机路径" class="headerlink" title="docker cp 容器id:容器内路径 目的主机路径"></a>docker cp 容器id:容器内路径 目的主机路径</h3><blockquote>
+<p>拷贝容器内文件到外部文件系统</p>
+</blockquote>
+
       
     </div>
     
@@ -388,6 +489,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/容器/" rel="tag"><i class="fa fa-tag"></i> 容器</a>
+          
+        </div>
       
 
       
@@ -462,8 +569,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -502,7 +618,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -525,6 +641,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#底层原理"><span class="nav-number">1.</span> <span class="nav-text">底层原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker是怎么工作的"><span class="nav-number">1.1.</span> <span class="nav-text">Docker是怎么工作的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-为什么比VM快"><span class="nav-number">1.2.</span> <span class="nav-text">Docker 为什么比VM快</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker的常用命令"><span class="nav-number">2.</span> <span class="nav-text">Docker的常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#帮助命令"><span class="nav-number">2.1.</span> <span class="nav-text">帮助命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#镜像命令"><span class="nav-number">2.2.</span> <span class="nav-text">镜像命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-images"><span class="nav-number">2.2.1.</span> <span class="nav-text">docker images</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-search"><span class="nav-number">2.2.2.</span> <span class="nav-text">docker search</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-pull-镜像名-tag"><span class="nav-number">2.2.3.</span> <span class="nav-text">docker pull 镜像名[:tag]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-rmi-镜像id"><span class="nav-number">2.2.4.</span> <span class="nav-text">docker rmi 镜像id</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器命令"><span class="nav-number">2.3.</span> <span class="nav-text">容器命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-run"><span class="nav-number">2.3.1.</span> <span class="nav-text">docker run</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-ps"><span class="nav-number">2.3.2.</span> <span class="nav-text">docker ps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#退出容器"><span class="nav-number">2.3.3.</span> <span class="nav-text">退出容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-rm-容器id"><span class="nav-number">2.3.4.</span> <span class="nav-text">docker rm 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-start-容器id"><span class="nav-number">2.3.5.</span> <span class="nav-text">docker start 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-restart-容器id"><span class="nav-number">2.3.6.</span> <span class="nav-text">docker restart 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-stop-容器id"><span class="nav-number">2.3.7.</span> <span class="nav-text">docker stop 容器id</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他命令"><span class="nav-number">2.4.</span> <span class="nav-text">其他命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#后台启动容器"><span class="nav-number">2.4.1.</span> <span class="nav-text">后台启动容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-logs-容器id"><span class="nav-number">2.4.2.</span> <span class="nav-text">docker logs 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-top-容器id"><span class="nav-number">2.4.3.</span> <span class="nav-text">docker top 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-inspect-容器id"><span class="nav-number">2.4.4.</span> <span class="nav-text">docker inspect 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-exec-it-容器id"><span class="nav-number">2.4.5.</span> <span class="nav-text">docker exec -it 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-attach-容器id"><span class="nav-number">2.4.6.</span> <span class="nav-text">docker attach 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-cp-容器id-容器内路径-目的主机路径"><span class="nav-number">2.4.7.</span> <span class="nav-text">docker cp 容器id:容器内路径 目的主机路径</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -553,7 +685,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">12.1k</span>
+    <span title="Site words total count">14.5k</span>
   
 </div>
 <!--
