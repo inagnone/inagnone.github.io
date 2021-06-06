@@ -58,6 +58,7 @@
 <link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
 
 <link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+<link href="https://cdn.bootcss.com/KaTeX/0.7.1/katex.min.css" rel="stylesheet">
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
@@ -516,7 +517,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.5k
+                  1.9k
                 </span>
               
 
@@ -532,7 +533,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  6
+                  8
                 </span>
               
             </div>
@@ -607,8 +608,24 @@
 <h1 id="服务熔断"><a href="#服务熔断" class="headerlink" title="服务熔断"></a>服务熔断</h1><p>熔断是应对雪崩效应的一种微服务链路保护机制，当扇出链路的某个微服务出错不可用或者响应时间太长，会进行服务降级，进而熔断该节点微服务的调用，快速返回错误的响应信息。<strong>当检测到该节点为服务调用响应正常后，恢复调用链路</strong></p>
 <h2 id="Hystrix"><a href="#Hystrix" class="headerlink" title="Hystrix"></a>Hystrix</h2><p>Hystrix监控微服务间的调用状况，当失败的调用到达一定阈值，就会启动熔断机制。</p>
 <h3 id="服务熔断设置"><a href="#服务熔断设置" class="headerlink" title="服务熔断设置"></a>服务熔断设置</h3><p>service层</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HystrixCommand</span>(</span><br><span class="line">    fallbackMethod = <span class="string">"circuitBreakerFallbackFunction"</span>,commandProperties = &#123;</span><br><span class="line">        <span class="comment">//是否开启断路器</span></span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name=<span class="string">"circuitBreaker.enabled"</span>,value = <span class="string">"true"</span>),</span><br><span class="line">        <span class="comment">//请求次数</span></span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name = <span class="string">"circuitBreaker.requestVolumeThreshold"</span>,value = <span class="string">"10"</span>),</span><br><span class="line">        <span class="comment">//时间范围</span></span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name = <span class="string">"circuitBreaker.sleepWindowInMilliseconds"</span>,value = <span class="string">"10000"</span>),</span><br><span class="line">        <span class="comment">//失败率达到多少后熔断</span></span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name = <span class="string">"circuitBreaker.errorThresholdPercentage"</span>,value = <span class="string">"60"</span>)</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">paymentCircuitBreaker</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="string">"circuitBreaker"</span>.equals(flag))&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"circuitBreaker service running"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">circuitBreakerFallbackFunction</span><span class="params">(String flag)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"服务熔断了"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HystrixCommand</span>(</span><br><span class="line">    fallbackMethod = <span class="string">"circuitBreakerFallbackFunction"</span>,commandProperties = &#123;</span><br><span class="line">        <span class="comment">//是否开启断路器</span></span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name=<span class="string">"circuitBreaker.enabled"</span>,value = <span class="string">"true"</span>),</span><br><span class="line">        <span class="comment">//请求总数阈值</span></span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name = <span class="string">"circuitBreaker.requestVolumeThreshold"</span>,value = <span class="string">"10"</span>),</span><br><span class="line">        <span class="comment">//快照时间窗口</span></span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name = <span class="string">"circuitBreaker.sleepWindowInMilliseconds"</span>,value = <span class="string">"10000"</span>),</span><br><span class="line">        <span class="comment">//错误百分比阈值</span></span><br><span class="line">        <span class="meta">@HystrixProperty</span>(name = <span class="string">"circuitBreaker.errorThresholdPercentage"</span>,value = <span class="string">"60"</span>)</span><br><span class="line">    &#125;)</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">paymentCircuitBreaker</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="string">"circuitBreaker"</span>.equals(flag))&#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"circuitBreaker service running"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">circuitBreakerFallbackFunction</span><span class="params">(String flag)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"服务熔断了"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>熔断方法<strong>circuitBreakerFallbackFunction</strong>需要和service方法<strong>paymentCircuitBreaker</strong>结构一样（参数和返回值格式一致），当service被触发熔断后，service将不能被调用，降级方法一直被执行，超过配置的时间窗口期后，重新测试service是否正常，正常则恢复service，否则service保持熔断。</p>
+<blockquote>
+<p>快照时间窗口：断路器确定是否打开需要统计一些请求和错误数据，而统计的时间范围就是快照时间窗口，默认最近10s</p>
+<p>请求总数阈值:    在快照时间窗内，必须满足请求总数阈值才有资格熔断。默认20,意味着在10秒内，如果该htstrix命令的调用次数不足20次，即使所有的请求都超过或其他原因的失败，断路器都不会打开。</p>
+<p>错误百分比阈值：当请求总数在快照时间窗内超过了阈值，比如发生了30次调用，如果在这30次调用中，有15次发生了超时异常，也就是超过了50%的错误百分比，在默认设定50%阈值情况下，这时候就会将熔断器打开。</p>
+</blockquote>
+<h1 id="服务网关"><a href="#服务网关" class="headerlink" title="服务网关"></a>服务网关</h1><h2 id="gateway"><a href="#gateway" class="headerlink" title="gateway"></a>gateway</h2><h3 id="依赖-2"><a href="#依赖-2" class="headerlink" title="依赖"></a>依赖</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-gateway<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><ul>
+<li>配置文件</li>
+</ul>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">cloud:</span></span><br><span class="line"><span class="attr">  gateway:</span></span><br><span class="line"><span class="attr">    route:</span></span><br><span class="line">      <span class="comment">#路由id</span></span><br><span class="line"><span class="attr">      - id:</span>  <span class="string">payment_route</span></span><br><span class="line">        <span class="comment">#匹配后提供服务的路由地址</span></span><br><span class="line"><span class="attr">        uri:</span>   <span class="attr">http://localhost:8001</span></span><br><span class="line"><span class="attr">        predicates:</span></span><br><span class="line">        <span class="comment">#断言，路径相匹配的进行路由</span></span><br><span class="line"><span class="bullet">          -</span> <span class="string">Path=/payment/get/**</span></span><br><span class="line"><span class="attr">      - id:</span> <span class="string">payment_route2</span></span><br><span class="line"><span class="attr">        uri:</span>    <span class="attr">http://localhost:8001</span></span><br><span class="line"><span class="attr">        predicates:</span></span><br><span class="line"><span class="bullet">          -</span> <span class="string">PATH=/payment/lb/**</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GatewayConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RouteLocator <span class="title">customRouteLocate</span><span class="params">(RouteLocatorBuilder rlb)</span></span>&#123;</span><br><span class="line">        RouteLocatorBuilder.Builder routeBuilder = rlb.routes();</span><br><span class="line">        routeBuilder.route(<span class="string">"payment"</span>, r -&gt;</span><br><span class="line">            r.path(<span class="string">"/lb"</span>).uri(<span class="string">""</span>)</span><br><span class="line">        );</span><br><span class="line">        <span class="keyword">return</span> routeBuilder.build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="启动类"><a href="#启动类" class="headerlink" title="启动类"></a>启动类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GatewayApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(GatewayApplication.class,args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="路由"><a href="#路由" class="headerlink" title="路由"></a>路由</h3><h3 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h3><h3 id="过滤"><a href="#过滤" class="headerlink" title="过滤"></a>过滤</h3><h1 id="服务配置"><a href="#服务配置" class="headerlink" title="服务配置"></a>服务配置</h1><h2 id="依赖-3"><a href="#依赖-3" class="headerlink" title="依赖"></a>依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-config-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
           
         
@@ -871,7 +888,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.5k
+                  1.8k
                 </span>
               
 
@@ -887,7 +904,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  7
+                  8
                 </span>
               
             </div>
@@ -1007,6 +1024,14 @@
 <h3 id="docker-cp-容器id-容器内路径-目的主机路径"><a href="#docker-cp-容器id-容器内路径-目的主机路径" class="headerlink" title="docker cp 容器id:容器内路径 目的主机路径"></a>docker cp 容器id:容器内路径 目的主机路径</h3><blockquote>
 <p>拷贝容器内文件到外部文件系统</p>
 </blockquote>
+<h1 id="Docker-镜像"><a href="#Docker-镜像" class="headerlink" title="Docker 镜像"></a>Docker 镜像</h1><p>镜像是一种轻量级，可执行的独立软件包，用来打包软件运行环境和基于运行环境开发的软件，包含运行某个软件所需要的所有内容，包括代码，库，环境变量和配置文件</p>
+<h2 id="镜像加载原理"><a href="#镜像加载原理" class="headerlink" title="镜像加载原理"></a>镜像加载原理</h2><blockquote>
+<p>UnionFS联合文件系统</p>
+</blockquote>
+<p>一种分层，轻量级并且高性能的文件系统，支持对文件系统的修改作为一次提交来一层层叠加，同时可以将不同目录挂载到同一个虚拟文件系统下。union文件系统层是Docker镜像的基础，镜像可以通过分层来进行继承，基于基础镜像（没有父镜像），可以制作各种具体的应用镜像。</p>
+<p>特性：一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包括所有底层的文件和目录。</p>
+<h2 id="Docker镜像加载原理"><a href="#Docker镜像加载原理" class="headerlink" title="Docker镜像加载原理"></a>Docker镜像加载原理</h2><p>docker镜像实际上由一层一层的文件系统组成，这种层级的文件系统UnionFS。</p>
+<p>bootfs主要</p>
 
           
         
@@ -1180,7 +1205,7 @@
         
           
             <a id="more"></a>
-<p><img src="//inagnone.github.io/2020/05/18/HashMap源码解析/inagnone.github.io\source\_posts\HashMap源码解析\1200.png" alt="img"></p>
+<p><img src="https://gitee.com/inag0000/image-bed/raw/master/blog-image/1200.png" alt="img"></p>
 <h1 id="常量介绍"><a href="#常量介绍" class="headerlink" title="常量介绍"></a>常量介绍</h1><p><code>default_initial_capacity</code>:默认初始容量，1&lt;&lt;4,即16。</p>
 <blockquote>
 <p>根据上图可以看出，hashMap由最上层是一个数组，数组中每一个元素是一个链表或者一棵红黑树。链表的每一个节点或者红黑树的节点才是我们put进去的元素，即hashmap的容量=所有被占用的数组位下的链表的和</p>
@@ -1387,191 +1412,15 @@
           
             <a id="more"></a>
 <h1 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h1><h2 id="节点的度"><a href="#节点的度" class="headerlink" title="节点的度"></a>节点的度</h2><p>结点拥有的子树数目称为结点的<strong>度</strong>。</p>
-<p><img src="//inagnone.github.io/2020/05/13/二叉树/inagnone.github.io\source\_posts\二叉树\7043118-cfa7c45bb8f1e332.png" alt></p>
+<p><img src="https://gitee.com/inag0000/image-bed/raw/master/blog-image/7043118-cfa7c45bb8f1e332.png" alt></p>
 <h2 id="节点层次"><a href="#节点层次" class="headerlink" title="节点层次"></a>节点层次</h2><p>从根开始定义起，根为第一层，根的孩子为第二层，以此类推</p>
-<p><img src="//inagnone.github.io/2020/05/13/二叉树/inagnone.github.io\source\_posts\二叉树\7043118-7c9318a6f5c1349d.png" alt="2.1"></p>
+<p><img src="https://gitee.com/inag0000/image-bed/raw/master/blog-image/7043118-7c9318a6f5c1349d.png" alt="2.1"></p>
 <h2 id="数的深度"><a href="#数的深度" class="headerlink" title="数的深度"></a>数的深度</h2><p>树中结点的最大层次数称为树的深度或高度。所示树的深度为4。</p>
 <h2 id="性质"><a href="#性质" class="headerlink" title="性质"></a>性质</h2><p>1）在二叉树的第i层上最多有2i-1 个节点 。（i&gt;=1）<br> 2）二叉树中如果深度为k,那么最多有2k-1个节点。(k&gt;=1）<br> 3）n0=n2+1  n0表示度数为0的节点数，n2表示度数为2的节点数。<br> 4）在完全二叉树中，具有n个节点的完全二叉树的深度为[log2n]+1，其中[log2n]是向下取整。<br> 5）若对含 n 个结点的完全二叉树从上到下且从左至右进行 1 至 n 的编号，则对完全二叉树中任意一个编号为 i 的结点有如下特性：</p>
 <blockquote>
 <p>(1) 若 i=1，则该结点是二叉树的根，无双亲, 否则，编号为 [i/2] 的结点为其双亲结点;<br> (2) 若 2i&gt;n，则该结点无左孩子，  否则，编号为 2i 的结点为其左孩子结点；<br> (3) 若 2i+1&gt;n，则该结点无右孩子结点，  否则，编号为2i+1 的结点为其右孩子结点。</p>
 </blockquote>
 
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://inagnone.github.io/2020/04/16/数据仓库集成方案/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="inagnone">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar/avatar2.jpeg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="inagnone">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/04/16/数据仓库集成方案/" itemprop="url">数据仓库集成方案</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-16T02:15:13+08:00">
-                2020-04-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-            <div class="post-wordcount">
-              
-                
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-file-word-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">字数统计&#58;</span>
-                
-                <span title="字数统计">
-                  388
-                </span>
-              
-
-              
-                <span class="post-meta-divider">|</span>
-              
-
-              
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-clock-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
-                
-                <span title="阅读时长">
-                  1
-                </span>
-              
-            </div>
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="//inagnone.github.io/2020/04/16/数据仓库集成方案/1.png" alt="数据仓库集成方案"></p>
-<h1 id="源数据提取"><a href="#源数据提取" class="headerlink" title="源数据提取"></a>源数据提取</h1><h1 id="本地源数据推送"><a href="#本地源数据推送" class="headerlink" title="本地源数据推送"></a>本地源数据推送</h1><p>将日志采集的原始数据推送到数据平台ods层</p>
-<blockquote>
-<p>ods（Operational Data Store）操作性数据</p>
-<p><em>特点</em></p>
-<p>1、结构源数据保持一致</p>
-<p>2、一旦写入不能被修改</p>
-</blockquote>
-<p>通过在数据平台建立数据集成任务，通过配置数据源，设置规则，即可将本地系统中指定表中数据集成到数据平台的ods层中。</p>
-<h1 id="dw层数据建模"><a href="#dw层数据建模" class="headerlink" title="dw层数据建模"></a>dw层数据建模</h1><blockquote>
-<p>dw（Data Warehouse）数据仓库，包含所有主题的通用数据集合。</p>
-<p>dw层模型一般分为两类，维度表和事实表。维度表描述对象，如项目信息。事实表描述对象行为信息，如单据信息。</p>
-<p><em>特点</em></p>
-<p>1、应用数据都应该来自于dw层</p>
-<p>2、只允许增加不允许删除和修改</p>
-</blockquote>
-<p>这一步有两个目的：</p>
-<p>1、建立对象模型，如果ods的数据是来自多个系统，将不同系统的相同主题域对象信息进行汇总。</p>
-<p>2、按主题生成对象的事实表。（清楚ods中的无效字段，提高信息的颗粒度等）。</p>
-<h1 id="dm层数据汇总"><a href="#dm层数据汇总" class="headerlink" title="dm层数据汇总"></a>dm层数据汇总</h1><blockquote>
-<p>dm（Data Mart）数据集市，为了特定的应用目的或应用范围，而从数据仓库中独立出来的一部分数据。</p>
-<p><em>特点</em></p>
-<p>1、dm针对具体应用业务建立</p>
-<p>2、dm间不相互依赖</p>
-</blockquote>
-<p>dm中对dw的数据进行汇总，生成具体业务需要的数据</p>
-<h1 id="dm层数据回写本地数据库"><a href="#dm层数据回写本地数据库" class="headerlink" title="dm层数据回写本地数据库"></a>dm层数据回写本地数据库</h1>
           
         
       
@@ -2156,6 +2005,156 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://inagnone.github.io/2020/04/01/mysql技术内幕笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="inagnone">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar2.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="inagnone">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/04/01/mysql技术内幕笔记/" itemprop="url">mysql技术内幕笔记</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-01T22:47:55+08:00">
+                2020-04-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  0
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  1
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
@@ -2208,7 +2207,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2267,7 +2266,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -2281,7 +2280,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">14.5k</span>
+    <span title="Site words total count">14.8k</span>
   
 </div>
 <!--
