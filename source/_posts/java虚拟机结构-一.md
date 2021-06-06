@@ -7,7 +7,7 @@ categories:
 
 java虚拟机学习笔记
 <!-- more -->
-![虚拟机结构](E:\inagnone.github.io\source\_posts\pic\1240.png "")
+![虚拟机结构](https://gitee.com/inag0000/image-bed/raw/master/blog-image/1240.png "")
 
 # Class文件
 
