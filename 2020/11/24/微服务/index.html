@@ -87,17 +87,17 @@
 
 
 
-<meta name="description" content="服务注册与发现Eureka注册中心申明为eureka服务端 123456789@SpringBootApplication@EnableEurekaServerpublic class EurekaServerApplication &amp;#123;    public static void main(String[] args) &amp;#123;        SpringApplication.ru">
+<meta name="description" content="服务注册与发现Eureka注册中心申明为eureka服务端 123456789@SpringBootApplication@EnableEurekaServerpublic class EurekaServerApplication &amp;#123;    public static void main(String[] args) &amp;#123;        SpringApplication.r">
 <meta property="og:type" content="article">
 <meta property="og:title" content="微服务">
 <meta property="og:url" content="http://inagnone.github.io/2020/11/24/微服务/index.html">
 <meta property="og:site_name" content="inagnone">
-<meta property="og:description" content="服务注册与发现Eureka注册中心申明为eureka服务端 123456789@SpringBootApplication@EnableEurekaServerpublic class EurekaServerApplication &amp;#123;    public static void main(String[] args) &amp;#123;        SpringApplication.ru">
+<meta property="og:description" content="服务注册与发现Eureka注册中心申明为eureka服务端 123456789@SpringBootApplication@EnableEurekaServerpublic class EurekaServerApplication &amp;#123;    public static void main(String[] args) &amp;#123;        SpringApplication.r">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-07T18:39:39.757Z">
+<meta property="og:updated_time" content="2021-06-08T17:11:28.536Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微服务">
-<meta name="twitter:description" content="服务注册与发现Eureka注册中心申明为eureka服务端 123456789@SpringBootApplication@EnableEurekaServerpublic class EurekaServerApplication &amp;#123;    public static void main(String[] args) &amp;#123;        SpringApplication.ru">
+<meta name="twitter:description" content="服务注册与发现Eureka注册中心申明为eureka服务端 123456789@SpringBootApplication@EnableEurekaServerpublic class EurekaServerApplication &amp;#123;    public static void main(String[] args) &amp;#123;        SpringApplication.r">
 
 
 
@@ -378,7 +378,8 @@
       
 
       
-        <h1 id="服务注册与发现"><a href="#服务注册与发现" class="headerlink" title="服务注册与发现"></a>服务注册与发现</h1><h2 id="Eureka"><a href="#Eureka" class="headerlink" title="Eureka"></a>Eureka</h2><h3 id="注册中心"><a href="#注册中心" class="headerlink" title="注册中心"></a>注册中心</h3><p>申明为eureka服务端</p>
+        <a id="more"></a>
+<h1 id="服务注册与发现"><a href="#服务注册与发现" class="headerlink" title="服务注册与发现"></a>服务注册与发现</h1><h2 id="Eureka"><a href="#Eureka" class="headerlink" title="Eureka"></a>Eureka</h2><h3 id="注册中心"><a href="#注册中心" class="headerlink" title="注册中心"></a>注册中心</h3><p>申明为eureka服务端</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaServerApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EurekaServerApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>配置信息</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">    port:</span> <span class="number">7001</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">    instance:</span></span><br><span class="line">    	<span class="comment">#应用实例主机名</span></span><br><span class="line"><span class="attr">        hostname:</span> <span class="string">eureka1</span></span><br><span class="line"><span class="attr">    client:</span></span><br><span class="line">        <span class="comment">#是否从Eureka获取注册信息,默认是true,一般server端不需要</span></span><br><span class="line"><span class="attr">        fetch-registry:</span> <span class="literal">false</span></span><br><span class="line">        <span class="comment">#是否向注册中心注册自己</span></span><br><span class="line"><span class="attr">        register-with-eureka:</span> <span class="literal">false</span></span><br><span class="line">        <span class="comment">#eurekaServer查询服务和注册服务的地址,当server是集群是，server之间互相配置</span></span><br><span class="line"><span class="attr">        service-url:</span></span><br><span class="line"><span class="attr">            defaultZone:</span> <span class="attr">http://eureka2:7002/eureka/</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">    profiles:</span> <span class="number">7001</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">    port:</span> <span class="number">7002</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">    instance:</span></span><br><span class="line"><span class="attr">        hostname:</span> <span class="string">eureka2</span></span><br><span class="line"><span class="attr">    client:</span></span><br><span class="line"><span class="attr">        fetch-registry:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">        register-with-eureka:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">        service-url:</span></span><br><span class="line"><span class="attr">            defaultZone:</span> <span class="attr">http://eureka1:7001/eureka/</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">    profiles:</span> <span class="number">7002</span></span><br></pre></td></tr></table></figure>
@@ -628,7 +629,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -717,7 +718,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">15.4k</span>
+    <span title="Site words total count">16.1k</span>
   
 </div>
 <!--

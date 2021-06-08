@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="inagnone">
 <meta property="og:description" content="底层原理Docker是怎么工作的Docker是一个C-S结果系统，Docker的守护进程运行在主机上，通过Socker从客户端访问 DockerServer接收到DockerClient的指令，就会执行命令 Docker 为什么比VM快 Docker有着比虚拟机更少的抽象层 Docker利用的是宿主机的内核，VM需要Guest OS。所以新建一个容器的时候，docker不需要像虚拟机一样重新加载一">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-07T18:02:08.502Z">
+<meta property="og:updated_time" content="2021-06-08T16:50:03.370Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker">
 <meta name="twitter:description" content="底层原理Docker是怎么工作的Docker是一个C-S结果系统，Docker的守护进程运行在主机上，通过Socker从客户端访问 DockerServer接收到DockerClient的指令，就会执行命令 Docker 为什么比VM快 Docker有着比虚拟机更少的抽象层 Docker利用的是宿主机的内核，VM需要Guest OS。所以新建一个容器的时候，docker不需要像虚拟机一样重新加载一">
@@ -342,7 +342,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.8k
+                  1.9k
                 </span>
               
 
@@ -444,8 +444,7 @@
 <h3 id="docker-stop-容器id"><a href="#docker-stop-容器id" class="headerlink" title="docker stop 容器id"></a>docker stop 容器id</h3><blockquote>
 <p>停止容器</p>
 </blockquote>
-<p>docker kill 容器id</p>
-<blockquote>
+<h3 id="docker-kill-容器id"><a href="#docker-kill-容器id" class="headerlink" title="docker kill 容器id"></a>docker kill 容器id</h3><blockquote>
 <p>强制停止容器</p>
 </blockquote>
 <h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><h3 id="后台启动容器"><a href="#后台启动容器" class="headerlink" title="后台启动容器"></a>后台启动容器</h3><blockquote>
@@ -483,8 +482,9 @@
 <p>一种分层，轻量级并且高性能的文件系统，支持对文件系统的修改作为一次提交来一层层叠加，同时可以将不同目录挂载到同一个虚拟文件系统下。union文件系统层是Docker镜像的基础，镜像可以通过分层来进行继承，基于基础镜像（没有父镜像），可以制作各种具体的应用镜像。</p>
 <p>特性：一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包括所有底层的文件和目录。</p>
 <h2 id="Docker镜像加载原理"><a href="#Docker镜像加载原理" class="headerlink" title="Docker镜像加载原理"></a>Docker镜像加载原理</h2><p>docker镜像实际上由一层一层的文件系统组成，这种层级的文件系统UnionFS。</p>
-<p>bootfs主要</p>
-
+<p>bootfs主要包含bootloader和kernel,bootloader主要引导加载kernel,Linux刚启动会加载bootfs文件系统，在Docker镜像的最底层是bootfs，这一层与我们典型的Linux/Unix系统是一样的，包含boot加载器和内核，当bootloader加载完成之后整个内核就在内存中，此时内存的使用权由bootfs转交给内核，系统也会卸载bootfs</p>
+<p>rootfs在bootfs之上，包含典型的linux系统中的/dev，/proc,/bin,/etc等标准目录和文件。rootfs就是各种不同的操作系统发行版，比如Ubuntu</p>
+<h2 id="分层理解"><a href="#分层理解" class="headerlink" title="分层理解"></a>分层理解</h2>
       
     </div>
     
@@ -605,7 +605,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -660,7 +660,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#底层原理"><span class="nav-number">1.</span> <span class="nav-text">底层原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker是怎么工作的"><span class="nav-number">1.1.</span> <span class="nav-text">Docker是怎么工作的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-为什么比VM快"><span class="nav-number">1.2.</span> <span class="nav-text">Docker 为什么比VM快</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker的常用命令"><span class="nav-number">2.</span> <span class="nav-text">Docker的常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#帮助命令"><span class="nav-number">2.1.</span> <span class="nav-text">帮助命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#镜像命令"><span class="nav-number">2.2.</span> <span class="nav-text">镜像命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-images"><span class="nav-number">2.2.1.</span> <span class="nav-text">docker images</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-search"><span class="nav-number">2.2.2.</span> <span class="nav-text">docker search</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-pull-镜像名-tag"><span class="nav-number">2.2.3.</span> <span class="nav-text">docker pull 镜像名[:tag]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-rmi-镜像id"><span class="nav-number">2.2.4.</span> <span class="nav-text">docker rmi 镜像id</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器命令"><span class="nav-number">2.3.</span> <span class="nav-text">容器命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-run"><span class="nav-number">2.3.1.</span> <span class="nav-text">docker run</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-ps"><span class="nav-number">2.3.2.</span> <span class="nav-text">docker ps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#退出容器"><span class="nav-number">2.3.3.</span> <span class="nav-text">退出容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-rm-容器id"><span class="nav-number">2.3.4.</span> <span class="nav-text">docker rm 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-start-容器id"><span class="nav-number">2.3.5.</span> <span class="nav-text">docker start 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-restart-容器id"><span class="nav-number">2.3.6.</span> <span class="nav-text">docker restart 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-stop-容器id"><span class="nav-number">2.3.7.</span> <span class="nav-text">docker stop 容器id</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他命令"><span class="nav-number">2.4.</span> <span class="nav-text">其他命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#后台启动容器"><span class="nav-number">2.4.1.</span> <span class="nav-text">后台启动容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-logs-容器id"><span class="nav-number">2.4.2.</span> <span class="nav-text">docker logs 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-top-容器id"><span class="nav-number">2.4.3.</span> <span class="nav-text">docker top 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-inspect-容器id"><span class="nav-number">2.4.4.</span> <span class="nav-text">docker inspect 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-exec-it-容器id"><span class="nav-number">2.4.5.</span> <span class="nav-text">docker exec -it 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-attach-容器id"><span class="nav-number">2.4.6.</span> <span class="nav-text">docker attach 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-cp-容器id-容器内路径-目的主机路径"><span class="nav-number">2.4.7.</span> <span class="nav-text">docker cp 容器id:容器内路径 目的主机路径</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-镜像"><span class="nav-number">3.</span> <span class="nav-text">Docker 镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#镜像加载原理"><span class="nav-number">3.1.</span> <span class="nav-text">镜像加载原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker镜像加载原理"><span class="nav-number">3.2.</span> <span class="nav-text">Docker镜像加载原理</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#底层原理"><span class="nav-number">1.</span> <span class="nav-text">底层原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker是怎么工作的"><span class="nav-number">1.1.</span> <span class="nav-text">Docker是怎么工作的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-为什么比VM快"><span class="nav-number">1.2.</span> <span class="nav-text">Docker 为什么比VM快</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker的常用命令"><span class="nav-number">2.</span> <span class="nav-text">Docker的常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#帮助命令"><span class="nav-number">2.1.</span> <span class="nav-text">帮助命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#镜像命令"><span class="nav-number">2.2.</span> <span class="nav-text">镜像命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-images"><span class="nav-number">2.2.1.</span> <span class="nav-text">docker images</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-search"><span class="nav-number">2.2.2.</span> <span class="nav-text">docker search</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-pull-镜像名-tag"><span class="nav-number">2.2.3.</span> <span class="nav-text">docker pull 镜像名[:tag]</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-rmi-镜像id"><span class="nav-number">2.2.4.</span> <span class="nav-text">docker rmi 镜像id</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器命令"><span class="nav-number">2.3.</span> <span class="nav-text">容器命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-run"><span class="nav-number">2.3.1.</span> <span class="nav-text">docker run</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-ps"><span class="nav-number">2.3.2.</span> <span class="nav-text">docker ps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#退出容器"><span class="nav-number">2.3.3.</span> <span class="nav-text">退出容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-rm-容器id"><span class="nav-number">2.3.4.</span> <span class="nav-text">docker rm 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-start-容器id"><span class="nav-number">2.3.5.</span> <span class="nav-text">docker start 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-restart-容器id"><span class="nav-number">2.3.6.</span> <span class="nav-text">docker restart 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-stop-容器id"><span class="nav-number">2.3.7.</span> <span class="nav-text">docker stop 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-kill-容器id"><span class="nav-number">2.3.8.</span> <span class="nav-text">docker kill 容器id</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他命令"><span class="nav-number">2.4.</span> <span class="nav-text">其他命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#后台启动容器"><span class="nav-number">2.4.1.</span> <span class="nav-text">后台启动容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-logs-容器id"><span class="nav-number">2.4.2.</span> <span class="nav-text">docker logs 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-top-容器id"><span class="nav-number">2.4.3.</span> <span class="nav-text">docker top 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-inspect-容器id"><span class="nav-number">2.4.4.</span> <span class="nav-text">docker inspect 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-exec-it-容器id"><span class="nav-number">2.4.5.</span> <span class="nav-text">docker exec -it 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-attach-容器id"><span class="nav-number">2.4.6.</span> <span class="nav-text">docker attach 容器id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-cp-容器id-容器内路径-目的主机路径"><span class="nav-number">2.4.7.</span> <span class="nav-text">docker cp 容器id:容器内路径 目的主机路径</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-镜像"><span class="nav-number">3.</span> <span class="nav-text">Docker 镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#镜像加载原理"><span class="nav-number">3.1.</span> <span class="nav-text">镜像加载原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker镜像加载原理"><span class="nav-number">3.2.</span> <span class="nav-text">Docker镜像加载原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分层理解"><span class="nav-number">3.3.</span> <span class="nav-text">分层理解</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -694,7 +694,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">15.4k</span>
+    <span title="Site words total count">16.1k</span>
   
 </div>
 <!--
