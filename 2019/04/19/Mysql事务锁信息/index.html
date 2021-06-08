@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-mac-osx.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="mysql锁查询字段说明">
+<meta property="og:type" content="article">
+<meta property="og:title" content="查询当前数据库中的事务和锁信息">
+<meta property="og:url" content="http://inagnone.github.io/2019/04/19/Mysql事务锁信息/index.html">
+<meta property="og:site_name" content="inagnone">
+<meta property="og:description" content="mysql锁查询字段说明">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-12-23T16:31:11.778Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="查询当前数据库中的事务和锁信息">
+<meta name="twitter:description" content="mysql锁查询字段说明">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://inagnone.github.io/2019/04/19/Mysql事务锁信息/">
+
+
+
+
+
+  <title>查询当前数据库中的事务和锁信息 | inagnone</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">inagnone</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://inagnone.github.io/2019/04/19/Mysql事务锁信息/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="inagnone">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar/avatar2.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="inagnone">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">查询当前数据库中的事务和锁信息</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-19T01:09:47+08:00">
+                2019-04-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.4k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  5
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>mysql锁查询字段说明</p>
+<a id="more"></a>
+<h1 id="查询当前数据库中的事务和锁信息"><a href="#查询当前数据库中的事务和锁信息" class="headerlink" title="查询当前数据库中的事务和锁信息"></a>查询当前数据库中的事务和锁信息</h1><h2 id="information-schema-innodb-trx"><a href="#information-schema-innodb-trx" class="headerlink" title="information_schema.innodb_trx"></a>information_schema.innodb_trx</h2><p>当前运行的所有事务 </p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>trx_id</td>
+<td>事务ID</td>
+</tr>
+<tr>
+<td>trx_state</td>
+<td>事务状态：</td>
+</tr>
+<tr>
+<td>trx_started</td>
+<td>事务开始时间；</td>
+</tr>
+<tr>
+<td>trx_requested_lock_id</td>
+<td>innodb_locks.lock_id</td>
+</tr>
+<tr>
+<td>trx_wait_started</td>
+<td>事务开始等待的时间</td>
+</tr>
+<tr>
+<td>trx_weight     bigint(21)</td>
+<td>#</td>
+</tr>
+<tr>
+<td>trx_mysql_thread_id</td>
+<td>事务线程ID</td>
+</tr>
+<tr>
+<td>trx_query</td>
+<td>具体SQL语句</td>
+</tr>
+<tr>
+<td>trx_operation_state</td>
+<td>事务当前操作状态</td>
+</tr>
+<tr>
+<td>trx_tables_in_use</td>
+<td>事务中有多少个表被使用</td>
+</tr>
+<tr>
+<td>trx_tables_locked</td>
+<td>事务拥有多少个锁</td>
+</tr>
+<tr>
+<td>trx_lock_structs</td>
+<td>#</td>
+</tr>
+<tr>
+<td>trx_lock_memory_bytes</td>
+<td>事务锁住的内存大小（B）</td>
+</tr>
+<tr>
+<td>trx_rows_locked</td>
+<td>事务锁住的行数</td>
+</tr>
+<tr>
+<td>trx_rows_modified</td>
+<td>事务更改的行数</td>
+</tr>
+<tr>
+<td>trx_concurrency_tickets</td>
+<td>事务并发票数</td>
+</tr>
+<tr>
+<td>trx_isolation_level</td>
+<td>事务隔离级别</td>
+</tr>
+<tr>
+<td>trx_unique_checks</td>
+<td>是否唯一性检查</td>
+</tr>
+<tr>
+<td>trx_foreign_key_checks</td>
+<td>是否外键检查</td>
+</tr>
+<tr>
+<td>trx_last_foreign_key_error</td>
+<td>最后的外键错误</td>
+</tr>
+<tr>
+<td>trx_adaptive_hash_latched</td>
+<td>#</td>
+</tr>
+<tr>
+<td>trx_adaptive_hash_timeout</td>
+<td>#</td>
+</tr>
+</tbody>
+</table>
+<h2 id="information-schema-innodb-locks"><a href="#information-schema-innodb-locks" class="headerlink" title="information_schema.innodb_locks"></a>information_schema.innodb_locks</h2><p>当前出现的锁 </p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lock_id</td>
+<td>锁ID</td>
+<td></td>
+</tr>
+<tr>
+<td>lock_trx_id</td>
+<td>拥有锁的事务ID</td>
+</tr>
+<tr>
+<td>lock_mode</td>
+<td>锁模式</td>
+</tr>
+<tr>
+<td>lock_type</td>
+<td>锁类型</td>
+</tr>
+<tr>
+<td>lock_table</td>
+<td>被锁的表</td>
+</tr>
+<tr>
+<td>lock_index</td>
+<td>被锁的索引</td>
+</tr>
+<tr>
+<td>lock_space</td>
+<td>被锁的表空间号</td>
+</tr>
+<tr>
+<td>lock_page</td>
+<td>被锁的页号</td>
+</tr>
+<tr>
+<td>lock_rec</td>
+<td>被锁的记录号</td>
+</tr>
+<tr>
+<td>lock_data</td>
+<td>被锁的数据</td>
+</tr>
+</tbody>
+</table>
+<h2 id="innodb-lock-waits-innodb-lock-waits"><a href="#innodb-lock-waits-innodb-lock-waits" class="headerlink" title="innodb_lock_waits.innodb_lock_waits"></a>innodb_lock_waits.innodb_lock_waits</h2><p>锁等待的对应关系</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>requesting_trx_id</td>
+<td>请求锁的事务ID</td>
+</tr>
+<tr>
+<td>requested_lock_id</td>
+<td>请求锁的锁ID</td>
+</tr>
+<tr>
+<td>blocking_trx_id</td>
+<td>当前拥有锁的事务ID</td>
+</tr>
+<tr>
+<td>blocking_lock_id</td>
+<td>当前拥有锁的锁ID</td>
+</tr>
+</tbody>
+</table>
+<h2 id="show-full-processlist"><a href="#show-full-processlist" class="headerlink" title="show full processlist"></a>show full processlist</h2><p>查询当前数据库中运行的进程信息（相当于正在执行的每一条sql语句的状态信息）</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>一个标识</td>
+</tr>
+<tr>
+<td>user</td>
+<td>显示当前用户，如果不是root，这 个命令就只显示你权限范围内的sql语句。</td>
+</tr>
+<tr>
+<td>host</td>
+<td>显示这个语句是从哪个ip的哪个端口上发出的</td>
+</tr>
+<tr>
+<td>db</td>
+<td>显示 这个进程目前连接的数据库。</td>
+</tr>
+<tr>
+<td>command</td>
+<td>显示当前连接的执行的命令，一般就是休眠（sleep），查询（query），连接 （connect）。</td>
+</tr>
+<tr>
+<td>time</td>
+<td>此这个状态持续的时间，单位是秒。</td>
+</tr>
+<tr>
+<td>state</td>
+<td>显示使用当前连接的sql语句的状态，只是语句执行中的某一个状态，一个sql语句，已查询为例，可能需要经过copying to tmp table，Sorting result，Sending data等状态才可以完成</td>
+</tr>
+<tr>
+<td>info</td>
+<td>显示这个sql语句，因为长度有限，所以长的sql语句就显示不全，但是一个判断问题语句的重要依据。 </td>
+</tr>
+</tbody>
+</table>
+<h2 id="state列"><a href="#state列" class="headerlink" title="state列"></a>state列</h2><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Remark</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Checking table</td>
+<td>正在检查数据表（这是自动的）。</td>
+</tr>
+<tr>
+<td>Closing tables</td>
+<td>正在将表中修改的数据刷新到磁盘中，同时正在关闭已经用完的表。这是一个很快的操作，如果不是这样的话，就应该确认磁盘空间是否已经满了或者磁盘是否正处于重负中。</td>
+</tr>
+<tr>
+<td>Connect Out</td>
+<td>复制从服务器正在连接主服务器。</td>
+</tr>
+<tr>
+<td>Copying to tmp table on disk</td>
+<td>由于临时结果集大于 tmp_table_size，正在将临时表从内存存储转为磁盘存储以此节省内存。</td>
+</tr>
+<tr>
+<td>Creating tmp table</td>
+<td>正在创建临时表以存放部分查询结果。</td>
+</tr>
+<tr>
+<td>deleting from main table</td>
+<td>服务器正在执行多表删除中的第一部分，刚删除第一个表。</td>
+</tr>
+<tr>
+<td>deleting from reference tables</td>
+<td>服务器正在执行多表删除中的第二部分，正在删除其他表的记录。</td>
+</tr>
+<tr>
+<td>Flushing tables</td>
+<td>正在执行 FLUSH TABLES，等待其他线程关闭数据表。</td>
+</tr>
+<tr>
+<td>Killed</td>
+<td>发送了一个kill请求给某线程，那么这个线程将会检查kill标志位，同时会放弃下一个kill请求。MySQL会在每次的主循环中检查kill标志 位，不过有些情况下该线程可能会过一小段才能死掉。如果该线程程被其他线程锁住了，那么kill请求会在锁释放时马上生效。</td>
+</tr>
+<tr>
+<td>Locked</td>
+<td>被其他查询锁住了。</td>
+</tr>
+<tr>
+<td>Sending data</td>
+<td>正在处理 SELECT 查询的记录，同时正在把结果发送给客户端。</td>
+</tr>
+<tr>
+<td>Sorting for group</td>
+<td>正在为 GROUP BY 做排序。</td>
+</tr>
+<tr>
+<td>Sorting for order</td>
+<td>正在为 ORDER BY 做排序。</td>
+</tr>
+<tr>
+<td>Opening tables</td>
+<td>这个过程应该会很快，除非受到其他因素的干扰。例如，在执 ALTER TABLE 或 LOCK TABLE 语句行完以前，数据表无法被其他线程打开。 正尝试打开一个表。</td>
+</tr>
+<tr>
+<td>Removing duplicates</td>
+<td>正在执行一个 SELECT DISTINCT 方式的查询，但是MySQL无法在前一个阶段优化掉那些重复的记录。因此，MySQL需要再次去掉重复的记录，然后再把结果发送给客户端。</td>
+</tr>
+<tr>
+<td>Reopen table</td>
+<td>获得了对一个表的锁，但是必须在表结构修改之后才能获得这个锁。已经释放锁，关闭数据表，正尝试重新打开数据表。</td>
+</tr>
+<tr>
+<td>Repair by sorting</td>
+<td>修复指令正在排序以创建索引。</td>
+</tr>
+<tr>
+<td>Repair with keycache</td>
+<td>修复指令正在利用索引缓存一个一个地创建新索引。它会比 Repair by sorting 慢些。</td>
+</tr>
+<tr>
+<td>Searching rows for update</td>
+<td>正在讲符合条件的记录找出来以备更新。它必须在 UPDATE 要修改相关的记录之前就完成了。</td>
+</tr>
+<tr>
+<td>Sleeping</td>
+<td>正在等待客户端发送新请求.</td>
+</tr>
+<tr>
+<td>System lock</td>
+<td>正在等待取得一个外部的系统锁。如果当前没有运行多个 mysqld 服务器同时请求同一个表，那么可以通过增加 –skip-external-locking参数来禁止外部系统锁。</td>
+</tr>
+<tr>
+<td>Upgrading lock</td>
+<td>INSERT DELAYED 正在尝试取得一个锁表以插入新记录。</td>
+</tr>
+<tr>
+<td>Updating</td>
+<td>正在搜索匹配的记录，并且修改它们。</td>
+</tr>
+<tr>
+<td>User Lock</td>
+<td>正在等待 GET_LOCK()。</td>
+</tr>
+<tr>
+<td>Waiting for tables</td>
+<td>该线程得到通知，数据表结构已经被修改了，需要重新打开数据表以取得新的结构。然后，为了能的重新打开数据表，必须等到所有其他线程关闭这个表。以下几种 情况下会产生这个通知：FLUSH TABLES tbl_name, ALTER TABLE, RENAME TABLE, REPAIR TABLE, ANALYZE TABLE, 或 OPTIMIZE TABLE。</td>
+</tr>
+<tr>
+<td>waiting for handler insert</td>
+<td>INSERT DELAYED 已经处理完了所有待处理的插入操作，正在等待新的请求。</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/19/markdown语法/" rel="next" title="markdown语法">
+                <i class="fa fa-chevron-left"></i> markdown语法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/19/位运算——两数相加/" rel="prev" title="位运算--两束之和">
+                位运算--两束之和 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar/avatar2.jpeg" alt="inagnone">
+            
+              <p class="site-author-name" itemprop="name">inagnone</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#查询当前数据库中的事务和锁信息"><span class="nav-number">1.</span> <span class="nav-text">查询当前数据库中的事务和锁信息</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#information-schema-innodb-trx"><span class="nav-number">1.1.</span> <span class="nav-text">information_schema.innodb_trx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#information-schema-innodb-locks"><span class="nav-number">1.2.</span> <span class="nav-text">information_schema.innodb_locks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#innodb-lock-waits-innodb-lock-waits"><span class="nav-number">1.3.</span> <span class="nav-text">innodb_lock_waits.innodb_lock_waits</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#show-full-processlist"><span class="nav-number">1.4.</span> <span class="nav-text">show full processlist</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#state列"><span class="nav-number">1.5.</span> <span class="nav-text">state列</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">inagnone</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">12.1k</span>
+  
+</div>
+<!--
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+-->
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+  
+  
+   <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;"></canvas> 
+   <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+   <script type="text/javascript" src="/js/src/fireworks.js"></script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/z16.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7},"log":false});</script></body>
+</html>
