@@ -81,7 +81,7 @@ theme: next
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type:	git
-  repo: https://github.com/inagnone/inagnone.github.io.git
+  repo: git@github.com:inagnone/inagnone.github.io.git
   
 live2d:
   enable: true
