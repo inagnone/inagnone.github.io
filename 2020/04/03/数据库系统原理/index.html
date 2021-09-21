@@ -87,18 +87,18 @@
 
 
 
-<meta name="description" content="事务ACID特性原子性 Atomicity一致性Consistency数据库在事务执行前后都保持一致性状态。在一致性状态下，所有事务对同一个数据的读取结果都是相同的 隔离性 Isolation一个事务所做的修改在最终提交之前，对其他事务都是不可见的 持久性一旦事务提交，则其所做的修改将永远保存到数据库中，即使系统崩溃，事务执行结果也不会丢失  ACID之间的关系  只有满足一致性，事务的执行结果才">
+<meta name="description" content="事务ACID特性原子性 Atomicity一致性Consistency数据库在事务执行前后都保持一致性状态。在一致性状态下，所有事务对同一个数据的读取结果都是相同的 隔离性 Isolation一个事务所做的修改在最终提交之前，对其他事务都是不可见的 持久性一旦事务提交，则其所做的修改将永远保存到数据库中，即使系统崩溃，事务执行结果也不会丢失  ACID之间的关系  只有满足一致性，事务的执行结果">
 <meta name="keywords" content="理论学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据库系统原理">
 <meta property="og:url" content="http://inagnone.github.io/2020/04/03/数据库系统原理/index.html">
 <meta property="og:site_name" content="inagnone">
-<meta property="og:description" content="事务ACID特性原子性 Atomicity一致性Consistency数据库在事务执行前后都保持一致性状态。在一致性状态下，所有事务对同一个数据的读取结果都是相同的 隔离性 Isolation一个事务所做的修改在最终提交之前，对其他事务都是不可见的 持久性一旦事务提交，则其所做的修改将永远保存到数据库中，即使系统崩溃，事务执行结果也不会丢失  ACID之间的关系  只有满足一致性，事务的执行结果才">
+<meta property="og:description" content="事务ACID特性原子性 Atomicity一致性Consistency数据库在事务执行前后都保持一致性状态。在一致性状态下，所有事务对同一个数据的读取结果都是相同的 隔离性 Isolation一个事务所做的修改在最终提交之前，对其他事务都是不可见的 持久性一旦事务提交，则其所做的修改将永远保存到数据库中，即使系统崩溃，事务执行结果也不会丢失  ACID之间的关系  只有满足一致性，事务的执行结果">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-12-23T16:49:05.279Z">
+<meta property="og:updated_time" content="2021-09-20T09:51:46.349Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库系统原理">
-<meta name="twitter:description" content="事务ACID特性原子性 Atomicity一致性Consistency数据库在事务执行前后都保持一致性状态。在一致性状态下，所有事务对同一个数据的读取结果都是相同的 隔离性 Isolation一个事务所做的修改在最终提交之前，对其他事务都是不可见的 持久性一旦事务提交，则其所做的修改将永远保存到数据库中，即使系统崩溃，事务执行结果也不会丢失  ACID之间的关系  只有满足一致性，事务的执行结果才">
+<meta name="twitter:description" content="事务ACID特性原子性 Atomicity一致性Consistency数据库在事务执行前后都保持一致性状态。在一致性状态下，所有事务对同一个数据的读取结果都是相同的 隔离性 Isolation一个事务所做的修改在最终提交之前，对其他事务都是不可见的 持久性一旦事务提交，则其所做的修改将永远保存到数据库中，即使系统崩溃，事务执行结果也不会丢失  ACID之间的关系  只有满足一致性，事务的执行结果">
 
 
 
@@ -401,7 +401,8 @@
       
 
       
-        <h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><h2 id="ACID特性"><a href="#ACID特性" class="headerlink" title="ACID特性"></a>ACID特性</h2><h3 id="原子性-Atomicity"><a href="#原子性-Atomicity" class="headerlink" title="原子性 Atomicity"></a>原子性 Atomicity</h3><h3 id="一致性Consistency"><a href="#一致性Consistency" class="headerlink" title="一致性Consistency"></a>一致性Consistency</h3><p>数据库在事务执行前后都保持一致性状态。在一致性状态下，所有事务对同一个数据的读取结果都是相同的</p>
+        <a id="more"></a>
+<h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><h2 id="ACID特性"><a href="#ACID特性" class="headerlink" title="ACID特性"></a>ACID特性</h2><h3 id="原子性-Atomicity"><a href="#原子性-Atomicity" class="headerlink" title="原子性 Atomicity"></a>原子性 Atomicity</h3><h3 id="一致性Consistency"><a href="#一致性Consistency" class="headerlink" title="一致性Consistency"></a>一致性Consistency</h3><p>数据库在事务执行前后都保持一致性状态。在一致性状态下，所有事务对同一个数据的读取结果都是相同的</p>
 <h3 id="隔离性-Isolation"><a href="#隔离性-Isolation" class="headerlink" title="隔离性 Isolation"></a>隔离性 Isolation</h3><p>一个事务所做的修改在最终提交之前，对其他事务都是不可见的</p>
 <h3 id="持久性"><a href="#持久性" class="headerlink" title="持久性"></a>持久性</h3><p>一旦事务提交，则其所做的修改将永远保存到数据库中，即使系统崩溃，事务执行结果也不会丢失</p>
 <blockquote>
@@ -541,7 +542,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -552,7 +553,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -563,7 +564,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -630,7 +631,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">16.1k</span>
+    <span title="Site words total count">17.8k</span>
   
 </div>
 <!--

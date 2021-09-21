@@ -76,7 +76,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="数据库,">
 
 
 
@@ -87,17 +87,18 @@
 
 
 
-<meta name="description" content="查询json字段字段内容 1234567891011&quot;rule&quot;:&amp;#123;    &quot;tags&quot;: &amp;#123;        &quot;target&quot;: &quot;logon&quot;    &amp;#125;,    &quot;time&quot;: &quot;2019-11-15 10:00:00&quot;,    &quot;method&quot;: &quot;scheduled&quot;,    &quot;source&quot;: &quot;backend&quot;,    &quot;aliases&quot;: [],    &quot;">
+<meta name="description" content="查询json字段字段内容 1234567891011&quot;rule&quot;:&amp;#123;    &quot;tags&quot;: &amp;#123;        &quot;target&quot;: &quot;logon&quot;    &amp;#125;,    &quot;time&quot;: &quot;2019-11-15 10:00:00&quot;,    &quot;method&quot;: &quot;scheduled&quot;,    &quot;source&quot;: &quot;backend&quot;,    &quot;aliases&quot;: [],">
+<meta name="keywords" content="数据库">
 <meta property="og:type" content="article">
 <meta property="og:title" content="pgsql">
 <meta property="og:url" content="http://inagnone.github.io/2021/05/14/pgsql/index.html">
 <meta property="og:site_name" content="inagnone">
-<meta property="og:description" content="查询json字段字段内容 1234567891011&quot;rule&quot;:&amp;#123;    &quot;tags&quot;: &amp;#123;        &quot;target&quot;: &quot;logon&quot;    &amp;#125;,    &quot;time&quot;: &quot;2019-11-15 10:00:00&quot;,    &quot;method&quot;: &quot;scheduled&quot;,    &quot;source&quot;: &quot;backend&quot;,    &quot;aliases&quot;: [],    &quot;">
+<meta property="og:description" content="查询json字段字段内容 1234567891011&quot;rule&quot;:&amp;#123;    &quot;tags&quot;: &amp;#123;        &quot;target&quot;: &quot;logon&quot;    &amp;#125;,    &quot;time&quot;: &quot;2019-11-15 10:00:00&quot;,    &quot;method&quot;: &quot;scheduled&quot;,    &quot;source&quot;: &quot;backend&quot;,    &quot;aliases&quot;: [],">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-06-08T16:50:03.371Z">
+<meta property="og:updated_time" content="2021-09-20T09:51:46.344Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="pgsql">
-<meta name="twitter:description" content="查询json字段字段内容 1234567891011&quot;rule&quot;:&amp;#123;    &quot;tags&quot;: &amp;#123;        &quot;target&quot;: &quot;logon&quot;    &amp;#125;,    &quot;time&quot;: &quot;2019-11-15 10:00:00&quot;,    &quot;method&quot;: &quot;scheduled&quot;,    &quot;source&quot;: &quot;backend&quot;,    &quot;aliases&quot;: [],    &quot;">
+<meta name="twitter:description" content="查询json字段字段内容 1234567891011&quot;rule&quot;:&amp;#123;    &quot;tags&quot;: &amp;#123;        &quot;target&quot;: &quot;logon&quot;    &amp;#125;,    &quot;time&quot;: &quot;2019-11-15 10:00:00&quot;,    &quot;method&quot;: &quot;scheduled&quot;,    &quot;source&quot;: &quot;backend&quot;,    &quot;aliases&quot;: [],">
 
 
 
@@ -341,7 +342,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  80
+                  154
                 </span>
               
 
@@ -378,10 +379,15 @@
       
 
       
-        <h2 id="查询json字段"><a href="#查询json字段" class="headerlink" title="查询json字段"></a>查询json字段</h2><p>字段内容</p>
+        <a id="more"></a>
+<h2 id="查询json字段"><a href="#查询json字段" class="headerlink" title="查询json字段"></a>查询json字段</h2><p>字段内容</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">"rule":&#123;</span><br><span class="line">    "tags": &#123;</span><br><span class="line">        "target": "logon"</span><br><span class="line">    &#125;,</span><br><span class="line">    "time": "2019-11-15 10:00:00",</span><br><span class="line">    "method": "scheduled",</span><br><span class="line">    "source": "backend",</span><br><span class="line">    "aliases": [],</span><br><span class="line">    "sendType": "tag",</span><br><span class="line">    "registrationIds": []</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>查询rule字段sendType = ‘tag’</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span></span><br><span class="line">       <span class="keyword">uuid</span>,create_user,create_time,update_user,update_time,delete_flag,<span class="keyword">NAME</span>,<span class="keyword">type</span>,push,rule, <span class="keyword">STATUS</span> </span><br><span class="line">   <span class="keyword">FROM</span></span><br><span class="line">       jp_push jpt </span><br><span class="line">   <span class="keyword">WHERE</span></span><br><span class="line">       jpt.delete_flag = <span class="number">1</span> </span><br><span class="line">       <span class="keyword">AND</span> ( jpct.rule :: <span class="keyword">json</span> -&gt;&gt; <span class="string">'sendType'</span> ) :: <span class="built_in">text</span> = <span class="string">'tag'</span> </span><br><span class="line">       <span class="keyword">AND</span> jpt.NAME = <span class="string">'testname'</span> </span><br><span class="line">   <span class="keyword">ORDER</span> <span class="keyword">BY</span> jpt.create_time <span class="keyword">ASC</span> <span class="keyword">LIMIT</span> <span class="number">20</span> <span class="keyword">OFFSET</span> <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<h2 id="修改json字段"><a href="#修改json字段" class="headerlink" title="修改json字段"></a>修改json字段</h2><p>修改data字段中的update_data的值</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">users</span> <span class="keyword">set</span> <span class="keyword">data</span> = <span class="keyword">data</span>::jsonb || <span class="string">'&#123;"update_data":"dddd"&#125;'</span>::jsonb <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">3</span>;</span><br><span class="line">`</span><br></pre></td></tr></table></figure>
+<h2 id="创建自增列"><a href="#创建自增列" class="headerlink" title="创建自增列"></a>创建自增列</h2><h3 id="创建自增序列"><a href="#创建自增序列" class="headerlink" title="创建自增序列"></a>创建自增序列</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">SEQUENCE</span> apply_transfer_id_seq  </span><br><span class="line"><span class="keyword">START</span> <span class="keyword">WITH</span> <span class="number">1</span>  </span><br><span class="line"><span class="keyword">INCREMENT</span> <span class="keyword">BY</span> <span class="number">1</span>  </span><br><span class="line"><span class="keyword">NO</span> <span class="keyword">MINVALUE</span>  </span><br><span class="line"><span class="keyword">NO</span> MAXVALUE  </span><br><span class="line"><span class="keyword">CACHE</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="将自增序列绑定到表字段"><a href="#将自增序列绑定到表字段" class="headerlink" title="将自增序列绑定到表字段"></a>将自增序列绑定到表字段</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> apply_transfer <span class="keyword">alter</span> <span class="keyword">column</span> <span class="keyword">id</span> <span class="keyword">set</span> <span class="keyword">default</span> <span class="keyword">nextval</span>(<span class="string">'apply_transfer_id_seq'</span>);</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -396,6 +402,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库/" rel="tag"><i class="fa fa-tag"></i> 数据库</a>
+          
+        </div>
       
 
       
@@ -415,6 +427,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/06/17/分布式一致性原理/" rel="prev" title="分布式一致性原理">
+                分布式一致性原理 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -493,7 +509,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -504,7 +520,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -515,7 +531,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -548,7 +564,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#查询json字段"><span class="nav-number">1.</span> <span class="nav-text">查询json字段</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#查询json字段"><span class="nav-number">1.</span> <span class="nav-text">查询json字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改json字段"><span class="nav-number">2.</span> <span class="nav-text">修改json字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建自增列"><span class="nav-number">3.</span> <span class="nav-text">创建自增列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建自增序列"><span class="nav-number">3.1.</span> <span class="nav-text">创建自增序列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将自增序列绑定到表字段"><span class="nav-number">3.2.</span> <span class="nav-text">将自增序列绑定到表字段</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -582,7 +598,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">16.1k</span>
+    <span title="Site words total count">17.8k</span>
   
 </div>
 <!--
